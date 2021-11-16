@@ -1,6 +1,6 @@
 # Simple NFT Marketplace
 
-This project provides samples codes to build a simple NFT marketplace with Amazon Managed Blockchain.
+This project provides sample codes to build a simple NFT marketplace with Amazon Managed Blockchain.
 - AWS CDK to deploy backend API ([/provision](/provision))
 - Contract written in Solidity ([/contract](/contract))
 - Marketplace web UI ([/marketplace](/marketplace))
@@ -14,3 +14,11 @@ This sample code is not a complete marketplace. Some critical features have not 
 ## Docs
 - [ドキュメント (日本語)](/docs/ja)
 - Documentation (English) (Not Ready)
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
