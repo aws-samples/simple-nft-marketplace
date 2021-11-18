@@ -12,8 +12,8 @@ This sample code is not a complete marketplace. Some critical features have not 
 ![](/imgs/simple-nft-marketplace.png)
 
 ## Docs
-- [ドキュメント (日本語)](/docs/ja)
 - [Documentation (English)](/docs/en)
+- [ドキュメント (日本語)](/docs/ja)
 
 ## Security
 

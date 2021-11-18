@@ -89,4 +89,4 @@ as they will be needed in the upcoming steps.
 
 [1]:./DOCS_01_CREATE_AMB.md
 [2]:./DOCS_02_DEPLOY_CONTRACT.md
-[3]:./DOCS_03_FRONTEND.md
+[3]:./DOCS_04_FRONTEND.md
