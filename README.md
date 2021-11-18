@@ -13,7 +13,7 @@ This sample code is not a complete marketplace. Some critical features have not 
 
 ## Docs
 - [ドキュメント (日本語)](/docs/ja)
-- Documentation (English) (Not Ready)
+- [Documentation (English)](/docs/en)
 
 ## Security
 
