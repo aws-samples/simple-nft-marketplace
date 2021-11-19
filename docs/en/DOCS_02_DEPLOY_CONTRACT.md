@@ -133,10 +133,10 @@ to the `Address` we just created.
 After the deposit is complete, run the following command to ste up an account to
 deploy the contract.
 
-Replace `<0x ...>` with the contents of `PrivateKey` from the previous step.
+Replace `<0x...>` with the contents of `PrivateKey` from the previous step.
 
 ```bash
-export PRIVATE_KEY='<0x ...>'
+export PRIVATE_KEY='<0x...>'
 ```
 
 Next, set up AWS IAM permissions to connect to the Amazon Managed Blockchain if
@@ -146,8 +146,8 @@ Secret Access Key in your environment variables as follows: Each `<...>` needs
 to be replaced with the appropriate value.
 
 ```bash
-export AWS_ACCESS_KEY_ID = <...>
-export AWS_SECRET_ACCESS_KEY = <...>
+export AWS_ACCESS_KEY_ID='<...>'
+export AWS_SECRET_ACCESS_KEY='<...>'
 ```
 
 **IMPORTANT**: These access key environment variables must currently be set until
