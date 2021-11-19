@@ -9,9 +9,10 @@ This sample code is not a complete marketplace. Some critical features have not 
 
 ## Architecture
 
-![](/imgs/simple-nft-marketplace.png)
+![Architecture](/imgs/simple-nft-marketplace.png)
 
 ## Docs
+
 - [Documentation (English)](/docs/en)
 - [ドキュメント (日本語)](/docs/ja)
 

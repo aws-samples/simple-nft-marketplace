@@ -9,27 +9,34 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as cfn from '@aws-cdk/aws-cloudfront';
 import * as origins from '@aws-cdk/aws-cloudfront-origins';
 
-if (!process.env.AMB_HTTP_ENDPOINT) {
-  console.log('--- Error ---');
-  console.log('Environment variable AMB_HTTP_ENDPOINT is not set.')
-  console.log('```');
-  console.log('export AMB_HTTP_ENDPOINT=https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com');
-  console.log('```');
-  process.exit(1);
-}
-
-if (!process.env.CONTRACT_ADDRESS) {
-  console.log('--- Error ---');
-  console.log('Environment variable CONTRACT_ADDRESS is not set.')
-  console.log('```');
-  console.log('export CONTRACT_ADDRESS=0x...');
-  console.log('```');
-  process.exit(1);
+interface ProvisionStackProps extends cdk.StackProps {
+  ambHttpEndpoint: string;
+  contractAddress: string;
 }
 
 export class ProvisionStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props: ProvisionStackProps) {
     super(scope, id, props);
+    let {
+      ambHttpEndpoint,
+      contractAddress,
+    } = props;
+
+    if (!ambHttpEndpoint) {
+      throw new Error(`Environment variable AMB_HTTP_ENDPOINT is not set.
+\`\`\`
+export AMB_HTTP_ENDPOINT=https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com
+\`\`\`
+`)
+    }
+
+    if (!contractAddress) {
+      throw new Error(`Environment variable CONTRACT_ADDRESS is not set.
+\`\`\`
+export CONTRACT_ADDRESS=0x...
+\`\`\`
+`)
+    }
 
     const assetBucket = new s3.Bucket(this, 'AssetBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -293,10 +300,17 @@ export class ProvisionStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'UserPoolId', {
       value: userPool.userPoolId,
+      exportName: 'UserPoolId',
     });
 
     new cdk.CfnOutput(this, 'UserPoolClientId', {
       value: client.userPoolClientId,
+      exportName: 'UserPoolClientId',
+    });
+
+    new cdk.CfnOutput(this, 'NftApiEndpoint', {
+      value: api.url,
+      exportName: 'NftApiEndpoint',
     });
   }
 
