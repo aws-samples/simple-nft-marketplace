@@ -1,6 +1,6 @@
 # Deploy Contract
 
-Next we will deploy the contract written in [Solidity] (https://docs.soliditylang.org/) 
+Next we will deploy the contract written in [Solidity](https://docs.soliditylang.org/) 
 to Ethereum Testnet Ropsten.  Solidity is an object-oriented, high level language for 
 implementing smart contracts. 
 
@@ -159,7 +159,7 @@ You must:
 1. Navigate to a provided rETH *faucet* and
 2. Enter the `Address` from the previous `Address`/`PrivateKey` pair
 
-After the deposit is complete, run the following command to ste up an account to
+After the deposit is complete, run the following command to set up an account to
 deploy the contract.
 
 Replace `<0x ...>` with the contents of `PrivateKey` from the previous step.
