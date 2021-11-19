@@ -42,27 +42,31 @@ as well. You can do this by running the following command.
 cd lambda; npm install; cd -;
 ```
 
-Then copy the compile product of Contract to `/lambda/contracts`. Run the following
-command.
+Then copy the compiled product of Contract (created in the previous section) 
+to `/lambda/contracts`. Run the following command.
 
 ```bash
 cp ../contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json lambda/contracts/.
 ```
 
-Then build the CDK project by running the following command.
+Next, because our CDK project is written in Typescript, we must build it before we can
+deploy it.  Build the CDK project by running the following command.
 
 ```bash
 npm run build
 ```
 
-Next we will set the required environment varaibles. `AMB_HTTP_ENDPOINT` is the
-HTTP endpoint of the node we created in the previous step [Creating a node for Ethereum Testnet: Ropsten][1] and `CONTRACT_ADDRESS` is the address of the contract we deployed in
-[Deploy Contract][2]. Replace the values in the following command with the values
-saved from previous steps and execute it.
+The CDK project uses variables to populate the AMB Endpoint and Contract Address.  
+Therefore, before we can deploy the project, will set the required environment variables. 
+`AMB_HTTP_ENDPOINT` is the HTTP endpoint of the node we created in the previous 
+step [Creating a node for Ethereum Testnet: Ropsten][1] and `CONTRACT_ADDRESS` is 
+the address of the contract we deployed in [Deploy Contract][2]. 
+Replace the values in the following command with the values saved from 
+previous steps and execute it.
 
 ```bash
-export AMB_HTTP_ENDPOINT = https: // <node id> .ethereum.managedblockchain. <region> .amazonaws.com
-export CONTRACT_ADDRESS = 0x ...
+export AMB_HTTP_ENDPOINT=https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com
+export CONTRACT_ADDRESS=0x ...
 ```
 
 Finally to deploy, execute the following command.

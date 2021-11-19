@@ -58,7 +58,7 @@
         Transfer
       </button>
 
-      <div class="mt-5 has-text-centered has-text-weight-bold" v-if="message !== ''">
+      <div class="mt-5 has-text-centered has-text-weight-bold" v-if="message !== '' && message !== 'ERROR: {}'">
         <span>Do NOT close browser now. {{ message }}</span>
       </div>
     </section>
