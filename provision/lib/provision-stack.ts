@@ -37,7 +37,6 @@ export CONTRACT_ADDRESS=0x...
 \`\`\`
 `)
     }
-
     const assetBucket = new s3.Bucket(this, 'AssetBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       cors: [
@@ -122,8 +121,8 @@ export CONTRACT_ADDRESS=0x...
     };
 
     const defaultFuncEnvironments = {
-      AMB_HTTP_ENDPOINT: process.env.AMB_HTTP_ENDPOINT!,
-      CONTRACT_ADDRESS: process.env.CONTRACT_ADDRESS!,
+      AMB_HTTP_ENDPOINT: ambHttpEndpoint,
+      CONTRACT_ADDRESS: contractAddress,
       TABLE_PRIVATE_KEY: privateKeyTable.tableName,
       TABLE_ASSET: assetTable.tableName,
       TABLE_JOB: jobTable.tableName,

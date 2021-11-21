@@ -134,13 +134,27 @@ const deployAmbNode = async () => {
     )
   );
   await keypress();
-  await commandWithPipe('npx cdk bootstrap', { cwd: PATHS.provision });
+  await commandWithPipe('npx cdk bootstrap', {
+    cwd: PATHS.provision,
+    env: {
+      // Placeholder values to prevent synth from failing
+      AMB_HTTP_ENDPOINT: 'placeholder',
+      CONTRACT_ADDRESS: 'placeholder',
+    },
+  });
   await commandWithPipe(
     `npx cdk deploy SimpleNftMarketplaceBlockchainNode \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs} \
 `,
-    { cwd: PATHS.provision }
+    {
+      cwd: PATHS.provision,
+      env: {
+        // Placeholder values to prevent synth from failing
+        AMB_HTTP_ENDPOINT: 'placeholder',
+        CONTRACT_ADDRESS: 'placeholder',
+      },
+    }
   );
   await copyStackOutputToSettings(
     'SimpleNftMarketplaceBlockchainNode',
