@@ -16,6 +16,11 @@ const PATHS = {
   marketplace: path.resolve(__dirname, './marketplace'),
   stackOutputs: path.resolve(__dirname, './provision/stack-outputs.json'),
   marketplaceEnv: path.resolve(__dirname, './marketplace/.env.local'),
+  lambdaContract: path.resolve(__dirname, './provision/lambda/contracts/SimpleERC721.json'),
+  compiledContract: path.resolve(
+    __dirname,
+    './contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json'
+  ),
 };
 
 const logProgress = (description, complete = false) => {
@@ -107,6 +112,9 @@ const compileContract = async () => {
   logProgress('Compile Contract');
   await commandWithPipe('npx hardhat compile', {
     cwd: PATHS.contract,
+  });
+  await fs.copy(PATHS.compiledContract, PATHS.lambdaContract, {
+    overwrite: true,
   });
   logProgress('Compile Contract', true);
 };

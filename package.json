@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/aws-samples/simple-nft-marketplace#readme",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
     "aws-sdk": "^2.1032.0",
     "chalk": "^4.1.2",
     "execa": "^5.1.1",
