@@ -1,9 +1,3 @@
-// The AWS console copies the endpoint without the required https:// prefix
-if (process.env.AMB_HTTP_ENDPOINT && !process.env.AMB_HTTP_ENDPOINT.startsWith('https://')) {
-  // Add https:// prefix if it doesn't already exist
-  process.env.AMB_HTTP_ENDPOINT = `https://${process.env.AMB_HTTP_ENDPOINT}`
-}
-
 const hardhat = require('hardhat');
 const path = require('path');
 const SimpleERC721 = require(path.join(__dirname, '..', 'artifacts', 'contracts', 'SimpleERC721.sol', 'SimpleERC721.json'));
