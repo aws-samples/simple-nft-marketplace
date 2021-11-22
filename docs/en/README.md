@@ -34,6 +34,22 @@ Run the deploy script and follow any prompts by running the following command.
 ./deploy.js
 ```
 
+### Cleaning Up
+
+> :warning: The peer node used in this example can cost as much as $0.174 per hour
+> depending on your region. It is recommended to remove these resources once they
+> are no longer being used.
+
+To remove all of the resources created from this example, run the following command
+from the root of the repository.
+
+```bash
+npm run cleanup
+```
+
+This will use CDK to remove the infrastructure we deployed, as well as remove the
+`deploy-settings.json` file created by the deploy script.
+
 ## Step by Step Instructions
 
 1. [Creating a node for Ethereum Testnet: Ropsten](./DOCS_01_CREATE_AMB.md)

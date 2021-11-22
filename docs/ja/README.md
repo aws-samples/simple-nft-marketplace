@@ -32,6 +32,22 @@ export AWS_PROFILE='my-profile'
 ./deploy.js
 ```
 
+### クリーンアップ
+
+> :warning: この例で使用されているピアノードは、1時間あたり0.174ドルもの費用がかかる可能性があります
+> お住まいの地域によって異なります。 これらのリソースを削除したら、削除することをお勧めします
+> は使用されなくなりました。
+
+この例から作成されたすべてのリソースを削除するには、次のコマンドを実行します
+リポジトリのルートから。
+
+```bash
+npm run cleanup
+```
+
+これにより、CDKを使用して、展開したインフラストラクチャを削除し、
+デプロイスクリプトによって作成された `deploy-settings.json`ファイル。
+
 ## 目次
 - [Ethereum Testnet Ropsten のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md)
 - [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md)

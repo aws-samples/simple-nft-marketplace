@@ -9,13 +9,15 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "postinstall": "npm install --prefix lambda"
+    "postinstall": "npm install --prefix lambda",
+    "destroy": "cross-env AMB_HTTP_ENDPOINT='placeholder' CONTRACT_ADDRESS='placeholder' cdk destroy --all"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.126.0",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
     "aws-cdk": "1.126.0",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.13.14",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
