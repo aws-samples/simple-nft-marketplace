@@ -20,12 +20,6 @@ npm install -g aws-cdk
 
 If `cdk --version` runs successfully, the installation is complete.
 
-Also, if you are new to CDK, you need to bootstrap. Please execute the following command.
-
-```bash
-cdk bootstrap
-```
-
 ## Deploy Infrastructure
 
 Switch to the [/provision](/provision) directory if you haven't already, then
@@ -33,6 +27,12 @@ run the following to install dependencies.
 
 ```bash
 npm install
+```
+
+If you are new to CDK, you need to bootstrap. Please execute the following command.
+
+```bash
+cdk bootstrap
 ```
 
 You will need to install the dependencies in the `provision/lambda` directory
