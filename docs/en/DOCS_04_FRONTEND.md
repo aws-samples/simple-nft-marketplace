@@ -24,7 +24,7 @@ Replacing the values enclosed in `<>` with the value as follows (omitting the `<
 | Placeholder      | Source                                               |
 | ---------------- | ---------------------------------------------------- |
 | `<region>`       | The region you deployed your stack in previous steps |
-| `<api-endpoint`> | `NftApiEndpoint` output copied from [Deploy API][1]  |
+| `<api-endpoint>` | `NftApiEndpoint` output from [Deploy API][1]         |
 | `<user-pool>`    | `UserPoolId` output from [Deploy API][1]             |
 | `<web-client>`   | `UserPoolClientId` output from [Deploy API][1]       |
 
