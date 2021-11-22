@@ -268,6 +268,34 @@ VUE_APP_USER_POOL_WEB_CLIENT_ID=${webClientId}
   logProgress('Write UI Configuration', true);
 };
 
+const buildFrontEnd = async () => {
+  logProgress('Build UI');
+  await commandWithPipe('npm run build', {
+    cwd: PATHS.marketplace,
+  });
+  logProgress('Build UI', true);
+};
+
+const deployFrontEnd = async () => {
+  logProgress('Deploy UI');
+  const deploy = commandWithPipe(
+    `npx cdk deploy SimpleNftMarketplaceFrontendStack \
+    --require-approval never`,
+    {
+      cwd: PATHS.provision,
+      env: {
+        // Placeholder values to prevent synth from failing
+        AMB_HTTP_ENDPOINT: 'placeholder',
+        CONTRACT_ADDRESS: 'placeholder',
+      },
+    }
+  );
+  const { stderr } = await deploy;
+  const [cfnEndpoint] = stderr.match(/(https:\/\/[a-zA-Z0-9]+.cloudfront.net)/);
+  await writeToSettings('cfnEndpoint', cfnEndpoint);
+  logProgress('Deploy UI', true);
+};
+
 const runOnce = async fn => {
   if (await getFromSettings(fn.name)) {
     console.log(`Skipping ${fn.name} since it has already been completed`);
@@ -296,18 +324,22 @@ const run = async () => {
   await deployApi();
   // Write Front End Config
   await writeFrontEndVars();
+  // Build Front End
+  await buildFrontEnd();
+  // Deploy Front End
+  await deployFrontEnd();
 };
 
 run()
-  .then(() => {
+  .then(async () => {
     console.log(
       chalk.green(`
 Success!
 
-Your Simple NFT Marketplace has now been deployed and the UI can be launched
-by running the following command:
+Your Simple NFT Marketplace has now been deployed and the UI can be accessed at
+the following URL:
 
-npm run serve --prefix marketplace
+${await getFromSettings('cfnEndpoint')}
 
 To mint and send your first NFT, you can start by creating an account on the UI
 as listed in the docs starting from here:
