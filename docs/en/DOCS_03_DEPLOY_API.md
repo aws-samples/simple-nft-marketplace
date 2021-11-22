@@ -61,8 +61,8 @@ HTTP endpoint of the node we created in the previous step [Creating a node for E
 saved from previous steps and execute it.
 
 ```bash
-export AMB_HTTP_ENDPOINT = https: // <node id> .ethereum.managedblockchain. <region> .amazonaws.com
-export CONTRACT_ADDRESS = 0x ...
+export AMB_HTTP_ENDPOINT='https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com'
+export CONTRACT_ADDRESS='0x...'
 ```
 
 Finally to deploy, execute the following command.
