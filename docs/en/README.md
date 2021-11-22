@@ -8,7 +8,8 @@ can also use [AWS Cloud9](https://aws.amazon.com/cloud9/).
 
 ### Install Dependencies
 
-To get started run the following command to install the required dependencies.
+To get started run the following command **in the root of this repository** to
+install the required dependencies.
 
 ```bash
 npm install
