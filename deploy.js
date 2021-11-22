@@ -6,7 +6,17 @@ const execa = require('execa');
 const AWS = require('aws-sdk');
 const chalk = require('chalk');
 
-const credentials = new AWS.SharedIniFileCredentials();
+let credentials = {};
+
+const setAWSCredentials = async () => {
+  try {
+    const credentialProviderChain = new AWS.CredentialProviderChain();
+    credentials = await credentialProviderChain.resolvePromise();
+    if (!credentials) throw new Error('Unable to resolve AWS credentials');
+  } catch (e) {
+    throw e;
+  }
+};
 
 const SETTINGS = path.resolve(__dirname, 'deploy-settings.json');
 
@@ -16,7 +26,10 @@ const PATHS = {
   marketplace: path.resolve(__dirname, './marketplace'),
   stackOutputs: path.resolve(__dirname, './provision/stack-outputs.json'),
   marketplaceEnv: path.resolve(__dirname, './marketplace/.env.local'),
-  lambdaContract: path.resolve(__dirname, './provision/lambda/contracts/SimpleERC721.json'),
+  lambdaContract: path.resolve(
+    __dirname,
+    './provision/lambda/contracts/SimpleERC721.json'
+  ),
   compiledContract: path.resolve(
     __dirname,
     './contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json'
@@ -314,6 +327,8 @@ const runOnce = async fn => {
 };
 
 const run = async () => {
+  // Set AWS Credentials
+  await setAWSCredentials();
   // Check dependencies
   await runOnce(checkDependencies);
   // Create account
