@@ -47,11 +47,11 @@ everything from the previous steps have been completed successfully.
 ## Create an account
 
 When <http://localhost:8080> loads, you will see a login page.  In order to proceed here,
-you will need to create a new account.  This will utilize Amazon Cognito to create and 
+you will need to create a new account.  This will utilize Amazon Cognito to create and
 validate a new account, so you will need to do the following:
 
 At the login screen, choose to create a new account using the 'No Account Create One' selection as shown.
-![](/imgs/local-create-account.png)
+![Sign in to your account](./img/local-create-account.png)
 
 On the `Create a new account` screen, enter a Username, password, and a *valid email address* as you will
 need to verify with a verification code (sent to this email) to sign up.
