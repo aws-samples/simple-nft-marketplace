@@ -1,6 +1,8 @@
-##Troubleshooting CDK Errors
-#### Environment variable CONTRACT_ADDRESS is not set:
-When running `cdk bootstra` you receive an error `Environment variable CONTRACT_ADDRESS is not set.` 
+# Troubleshooting CDK Errors
+
+## Environment variable CONTRACT_ADDRESS is not set
+
+When running `cdk bootstrap` you receive an error `Environment variable CONTRACT_ADDRESS is not set.`
 
 **Solution:**  CDK is trying to compile the existing stack (For which we have not yet
 set the required export variables) before deploying the bootstrap stack.
@@ -10,10 +12,10 @@ try the following commands instead to create and directly deploy the bootstrap s
 
 `aws cloudformation create-stack --stack-name CDKToolkit --template-body file://bootstrap-template.yaml`
 
-####AccessDenied when calling the CreateStack operation:
+## AccessDenied when calling the CreateStack operation
 
-When running `aws cloudformation create-stack..`command you receive an error 
-`An error occurred (AccessDenied) when calling the CreateStack operation: 
+When running `aws cloudformation create-stack..`command you receive an error
+`An error occurred (AccessDenied) when calling the CreateStack operation:
 User: arn:aws:iam:..`
 
 **Solution:** The credentials for the IAM user that you are using to deploy do
@@ -61,7 +63,8 @@ not have sufficient privilege to deploy a stack with CloudFormation.
   ]
 }
 ```
-####Is the docker daemon running? error
+
+## Is the docker daemon running? error
 
 When running `cdk deploy SimpleNftMarketplaceStack` you receive the following errors:
 
