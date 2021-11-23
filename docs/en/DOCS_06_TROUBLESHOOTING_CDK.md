@@ -14,7 +14,7 @@ try the following commands instead to create and directly deploy the bootstrap s
 
 ## AccessDenied when calling the CreateStack operation
 
-When running `aws cloudformation create-stack..`command you receive an error
+When running `aws cloudformation create-stack..` command you receive an error
 `An error occurred (AccessDenied) when calling the CreateStack operation:
 User: arn:aws:iam:..`
 
