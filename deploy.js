@@ -12,8 +12,8 @@ const setAWSCredentials = async () => {
   try {
     const credentialProviderChain = new AWS.CredentialProviderChain();
     credentials = await credentialProviderChain.resolvePromise();
-    if (!credentials) throw new Error('Unable to resolve AWS credentials');
   } catch (e) {
+    console.error('Failed to get AWS credentials');
     throw e;
   }
 };
