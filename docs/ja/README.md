@@ -7,3 +7,7 @@
 - [API のデプロイ](/docs/ja/DOCS_03_DEPLOY_API.md)
 - [フロントエンドの動作確認](/docs/ja/DOCS_04_FRONTEND.md)
 - [フロントエンドのデプロイ (オプショナル)](/docs/ja/DOCS_05_DEPLOY_FRONTEND.md)
+
+## トラブルシューティング
+
+よくあるエラー集をまとめたドキュメント (英語) が[こちら](/docs/en/DOCS_06_TROUBLESHOOTING_CDK.md) です。

@@ -9,7 +9,7 @@ the code located in the specified directories at each step.
 > Note: The creation of the node can take up to 30 minutes.
 > 
 To connect to the Ethereum network, we must create a node and connect it to the appropriate network. 
-We will use *Ropsten*, also known as the *Etheremum Testnet*, which is a test network allowing for
+We will use *Ropsten*, also known as the *Ethereum Testnet*, which is a test network allowing for
 blockchain development testing before deployment on Mainnet.  
 
 This node will provide our endpoint to communicate with the Ethereum network.
