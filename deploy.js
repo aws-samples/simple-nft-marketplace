@@ -238,11 +238,13 @@ Then press any key to continue...`)
 const waitForEther = async () => {
   const address = await getFromSettings('address');
   const endpoint = await getFromSettings('ambEndpoint');
+  const region = await getFromSettings('region');
   await commandWithPipe('node scripts/wait-for-balance.js', {
     cwd: PATHS.contract,
     env: {
       AMB_HTTP_ENDPOINT: endpoint,
       AWS_ACCESS_KEY_ID: credentials.accessKeyId,
+      AWS_DEFAULT_REGION: region,
       AWS_SECRET_ACCESS_KEY: credentials.secretAccessKey,
       CONTRACT_ADDRESS: address,
     },
@@ -253,6 +255,7 @@ const deployContract = async () => {
   logProgress('Deploy Contract');
   const privateKey = await getFromSettings('privateKey');
   const endpoint = await getFromSettings('ambEndpoint');
+  const region = await getFromSettings('region');
   const contract = commandWithPipe(
     'npx hardhat run --network amb scripts/deploy-amb.js',
     {
@@ -260,6 +263,7 @@ const deployContract = async () => {
       env: {
         AMB_HTTP_ENDPOINT: endpoint,
         AWS_ACCESS_KEY_ID: credentials.accessKeyId,
+        AWS_DEFAULT_REGION: region,
         AWS_SECRET_ACCESS_KEY: credentials.secretAccessKey,
         PRIVATE_KEY: privateKey,
       },
