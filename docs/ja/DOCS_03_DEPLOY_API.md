@@ -52,19 +52,19 @@ npm install
 cd lambda; npm install; cd -;
 ```
 
-続いて、Contract をコンパイルした生成物を `/lambda/contracts` にコピーします。以下のコマンドを実行してください。
+続いて、Contract をコンパイルした生成物 (前の手順で作成したもの) を `/lambda/contracts` にコピーします。以下のコマンドを実行してください。
 
 ```bash
 cp ../contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json lambda/contracts/.
 ```
 
-続いて、CDK プロジェクトをビルドします。以下のコマンドを実行してください。
+続いて、CDK プロジェクトをビルドします。(TypeScript で書かれているため。) 以下のコマンドを実行してください。
 
 ```bash
 npm run build
 ```
 
-続いて、必要な環境変数を設定します。`AMB_HTTP_ENDPOINT` は [Ethereum Testnet Ropsten のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md) で作成したノードの HTTP エンドポイントで、`CONTRACT_ADDRESS` は [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md) でデプロイした Contract のアドレスです。以下のコマンドを適切な値に置き換えて実行してください。
+続いて、必要な環境変数を設定します。Amazon Managed Blockchain のエンドポイントとデプロイした Contract でアドレスは環境変数から読み取ります。`AMB_HTTP_ENDPOINT` は [Ethereum Testnet Ropsten のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md) で作成したノードの HTTP エンドポイントで、`CONTRACT_ADDRESS` は [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md) でデプロイした Contract のアドレスです。以下のコマンドを適切な値に置き換えて実行してください。
 
 ```bash
 export AMB_HTTP_ENDPOINT=https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com

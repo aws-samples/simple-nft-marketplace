@@ -1,6 +1,6 @@
 # Testing The Front End (local)
 
-Launch the front end to verify all of our previous steps have been completed
+We now want to launch the front end to verify all of our previous steps have been completed
 successfully. In this step, we will **not** be deploying the front end and only
 running it locally.
 
@@ -28,7 +28,7 @@ Replacing the values enclosed in `<>` with the value as follows (omitting the `<
 | `<user-pool>`    | `UserPoolId` output from [Deploy API][1]             |
 | `<web-client>`   | `UserPoolClientId` output from [Deploy API][1]       |
 
-Then run the following command to install the dependencies.
+Then run the following command to install the dependencies for this element of the project.
 
 ```bash
 npm install
@@ -46,13 +46,23 @@ everything from the previous steps have been completed successfully.
 
 ## Create an account
 
-When <http://localhost:8080> loads, you will see a login page where we will create
-an account for Cognito. You will need to enter a valid email address as you will
-need to verify with a verification code to sign up.
+When <http://localhost:8080> loads, you will see a login page.  In order to proceed here,
+you will need to create a new account.  This will utilize Amazon Cognito to create and
+validate a new account, so you will need to do the following:
+
+At the login screen, choose to create a new account using the 'No Account Create One' selection as shown.
+![Sign in to your account](./img/local-create-account.png)
+
+On the `Create a new account` screen, enter a Username, password, and a *valid email address* as you will
+need to verify with a verification code (sent to this email) to sign up.
+
+> *What are we doing here?* As part of the previous deployment, we created a cognito Identity User pool
+> in *Your AWS Account* to control access to the marketplace.  This information is only available to your
+> account for authentication, therefore this information does not get used or shared externally in any way.
 
 ## Eth Deposit
 
-After you have verified your account, click the "Account" button in the upper right
+After you have verified your account, click the "Account" button in the upper right-
 hand corner of the page where you will see the following information:
 
 - Address: Public Address
