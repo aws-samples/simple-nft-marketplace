@@ -1,8 +1,19 @@
 # Deploy Contract
 
-Next we will deploy the contract written in Solidity to Ethereum Testnet Ropsten.
+Next we will deploy the contract written in [Solidity](https://docs.soliditylang.org/) 
+to Ethereum Testnet Ropsten.  Solidity is an object-oriented, high level language for 
+implementing smart contracts. 
 
-**Perform all of the following steps in the `/contract` directory**
+We will also be utilizing [hardhat](https://hardhat.org/), an Ethereum development environment
+which runs on Node.js that allows you to run Solidity locally.
+
+**Perform all of the following steps in the command line of the `/contract` directory
+in your local project**
+
+> **What are we doing?** In this step, we are installing the hardhat environment with Node.js 
+> and compiling the contracts.  Note the contract defined in the /contract/contracts directory.
+> We will deploy the contract using the deploy.js and deploy-amb.js scripts in the /contract/scripts
+> directory.
 
 ## Contract Overview
 
@@ -13,8 +24,8 @@ their own implementations. The implementation content can be found [here][2].
 
 ## Compile Contract
 
-After making sure our current working directory is [/contract/](/contract/),
-we will start by installing the dependencies.
+In your terminal or command line, make sure our current working directory is [/contract/](/contract/),
+we will start by installing the dependencies.  
 
 ```bash
 npm install
@@ -30,11 +41,16 @@ After compiling, you should see directories `contract/artifacts` and `contract/c
 
 ## Verify build locally (optional)
 
-The following steps utilize two terminal sessions, both running in the `/contract`
-directory. We will refer to the terminal sessions as *"Terminal A"* and *"Terminal B"*
+> Note: If you would like to skip this step, proceed to [Deploy to Ethereum Ropsten](#).
+
+The following steps utilize two terminal (or command line) sessions, both running in the `/contract`
+directory. We will refer to the terminal sessions as *"Terminal A"* and *"Terminal B"*.
 for the purpose of this step.
 
-> Note: If you would like to skip this step, proceed to [Deploy to Ethereum Ropsten](#).
+> **What are we doing?** Use of the two terminall sessions will allow us to simulate our 
+> environments locally running a local JSON-RPC server in `terminal A` (or server terminal), 
+> and then interact with that server in via `terminal B` (or the user terminal) 
+> for testing purposes.
 
 First, start the local JSON-RPC server by running the following commands in Terminal A.
 
@@ -49,7 +65,7 @@ to your local environment.
 npx hardhat run --network localhost scripts/deploy.js
 ```
 
-If successfull, you should see the following output in Terminal B where `0x...`
+If successful, you should see the following output in Terminal B where `0x...`
 is the address where the contract was deployed. Copy this address, as we will
 need it for the next step.
 
@@ -58,7 +74,7 @@ need it for the next step.
 ```
 
 Next, we will use the hardhat interactive console to issue an NFT token to the `SimpleERC721`
-contract.
+contract that is defined in the contract/contracts directory.
 
 Run the following command in Terminal B to start the hardhat interactive console.
 
@@ -98,7 +114,12 @@ twice.
 
 ## Deploy to Ethereum Ropsten via Amazon Managed Blockchain
 
-First, set the Amazon Managed Blockchain HTTP endpoint to an environment variable
+We can now deploy the contract to Ethereum Ropsten for testing.
+
+First, the deploy script depends upon Environmental variables being set in order
+to connect with your Ethereum Blockchain node.
+
+Set the Amazon Managed Blockchain HTTP endpoint to an environment variable
 in your terminal by running the following command. Replacing `<my-endpoint>` with
 the endpoint copied from the instructions in the previous page of
 [Creating a node for Ethereum Testnet Ropsten](./DOCS_01_CREATE_AMB.md).
@@ -123,17 +144,27 @@ steps.
 > Note: In a real world application, extreme caution should be taken with storing
 > the `PrivateKey` to avoid any unauthorized access.
 
-To deploy our contract, we have to pay the cost of gas in Ethereum. Therefore,
-we need to deposit Ethereum on the `Address` we created above. There are several
-services that distribute Ethereum on the Ropsten network for testing purposes.
+To deploy our contract, we have to [pay the cost of gas](https://ethereum.org/en/developers/docs/gas/) 
+in Ethereum. Therefore, we need Ropsten Ethereum (rETH), and we must deposit Ethereum on the `Address` 
+we created above. There are several services that distribute Ethereum on the Ropsten network for 
+testing purposes, known as Ropsten Ethereum Faucets.
 
-Search google for `Ropsten Ethereum Faucet` and use a faucet to deposit Ethereum
-to the `Address` we just created.
+You can use [this faucet](faucet.dimensions.network) or Search with your favorite search engine for 
+`Ropsten Ethereum Faucet` and use a faucet to deposit Ethereum to the `Address` we just created.
+You may consult 
+[Ethereum documentation](https://ethereum.org/en/developers/tutorials/hello-world-smart-contract/#step-4) 
+for more information.
 
-After the deposit is complete, run the following command to ste up an account to
+You must:
+1. Navigate to a provided rETH *faucet* and
+2. Enter the `Address` from the previous `Address`/`PrivateKey` pair
+
+After the deposit is complete, run the following command to set up an account to
 deploy the contract.
 
 Replace `<0x...>` with the contents of `PrivateKey` from the previous step.
+
+> The following assumes a bash shell.  Use `SET` on Windows
 
 ```bash
 export PRIVATE_KEY='<0x...>'

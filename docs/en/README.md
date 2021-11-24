@@ -11,3 +11,8 @@ can also use [AWS Cloud9](https://aws.amazon.com/cloud9/).
 3. [Deploy API](./DOCS_03_DEPLOY_API.md)
 4. [Testing the Front End (local)](./DOCS_04_FRONTEND.md)
 5. [Front End Deployment (optional)](./DOCS_05_DEPLOY_FRONTEND.md)
+
+## Troubleshooting
+
+See [Troubleshooting CDK Errors](./DOCS_06_TROUBLESHOOTING_CDK.md) for troubleshooting
+details.
