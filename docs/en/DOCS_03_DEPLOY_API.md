@@ -20,12 +20,6 @@ npm install -g aws-cdk
 
 If `cdk --version` runs successfully, the installation is complete.
 
-Also, if you are new to CDK, you need to bootstrap. Please execute the following command.
-
-```bash
-cdk bootstrap
-```
-
 ## Deploy Infrastructure
 
 Switch to the [/provision](/provision) directory if you haven't already, then
@@ -35,6 +29,12 @@ run the following to install dependencies.
 npm install
 ```
 
+If you are new to CDK, you need to bootstrap. Please execute the following command.
+
+```bash
+cdk bootstrap
+```
+
 You will need to install the dependencies in the `provision/lambda` directory
 as well. You can do this by running the following command.
 
@@ -42,7 +42,7 @@ as well. You can do this by running the following command.
 cd lambda; npm install; cd -;
 ```
 
-Then copy the compiled product of Contract (created in the previous section) 
+Then copy the compiled product of Contract (created in the previous section)
 to `/lambda/contracts`. Run the following command.
 
 ```bash
@@ -56,17 +56,17 @@ deploy it.  Build the CDK project by running the following command.
 npm run build
 ```
 
-The CDK project uses variables to populate the AMB Endpoint and Contract Address.  
-Therefore, before we can deploy the project, will set the required environment variables. 
-`AMB_HTTP_ENDPOINT` is the HTTP endpoint of the node we created in the previous 
-step [Creating a node for Ethereum Testnet: Ropsten][1] and `CONTRACT_ADDRESS` is 
-the address of the contract we deployed in [Deploy Contract][2]. 
-Replace the values in the following command with the values saved from 
+The CDK project uses variables to populate the AMB Endpoint and Contract Address.
+Therefore, before we can deploy the project, will set the required environment variables.
+`AMB_HTTP_ENDPOINT` is the HTTP endpoint of the node we created in the previous
+step [Creating a node for Ethereum Testnet: Ropsten][1] and `CONTRACT_ADDRESS` is
+the address of the contract we deployed in [Deploy Contract][2].
+Replace the values in the following command with the values saved from
 previous steps and execute it.
 
 ```bash
-export AMB_HTTP_ENDPOINT=https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com
-export CONTRACT_ADDRESS=0x ...
+export AMB_HTTP_ENDPOINT='https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com'
+export CONTRACT_ADDRESS='0x...'
 ```
 
 Finally to deploy, execute the following command.

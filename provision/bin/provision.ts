@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { ProvisionStack } from '../lib/provision-stack';
 import { FrontendStack } from '../lib/frontend-stack';
+import { AmbStack } from '../lib/amb-stack';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -14,5 +15,13 @@ if (!fs.existsSync(distPath)) {
 }
 
 const app = new cdk.App();
-new ProvisionStack(app, 'SimpleNftMarketplaceStack', {});
+
+new AmbStack(app, 'SimpleNftMarketplaceBlockchainNode');
+
+new ProvisionStack(app, 'SimpleNftMarketplaceStack', {
+  ambHttpEndpoint: process.env.AMB_HTTP_ENDPOINT || '',
+  contractAddress: process.env.CONTRACT_ADDRESS || '',
+});
+
+
 new FrontendStack(app, 'SimpleNftMarketplaceFrontendStack', {});
