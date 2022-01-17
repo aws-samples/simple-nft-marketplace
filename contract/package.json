@@ -3,7 +3,7 @@
     "@aws/web3-http-provider": "^1.0.1",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@openzeppelin/contracts": "^4.3.2",
+    "@openzeppelin/contracts": "^4.4.2",
     "ethers": "^5.4.7",
     "hardhat": "^2.6.5",
     "web3": "^1.6.0",
