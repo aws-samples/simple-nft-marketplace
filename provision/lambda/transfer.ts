@@ -9,11 +9,11 @@ const lambdaFunction = new AWS.Lambda();
 
 interface Transfer {
   toAddress: string;
-  tokenId: string;
 }
 
 exports.handler = async (event: lambda.APIGatewayProxyEvent): Promise<lambda.APIGatewayProxyResult> => {
   const transfer: Transfer = JSON.parse(event.body);
+  const tokenId = event.pathParameters.id;
   const username = event.requestContext.authorizer.claims['cognito:username'];
   const jobId = uuidv4();
 
@@ -29,7 +29,12 @@ exports.handler = async (event: lambda.APIGatewayProxyEvent): Promise<lambda.API
   await lambdaFunction.invoke({
     FunctionName: transferJobName,
     InvocationType: 'Event',
-    Payload: JSON.stringify({ jobId, username, toAddress: transfer.toAddress, tokenId: transfer.tokenId }),
+    Payload: JSON.stringify({
+      jobId,
+      username,
+      toAddress: transfer.toAddress,
+      tokenId,
+    }),
   }).promise();
 
   return {

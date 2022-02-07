@@ -24,6 +24,9 @@ contract SimpleERC721 is ERC721URIStorage {
     constructor() ERC721("SimpleNftToken", "SNT") {}
 
     function newItem(string memory tokenURI, uint256 royalty) public returns (uint256) {
+        require(royalty >= 0, "royalty must be greater than 0");
+        require(royalty < 100, "royalty must be less than 100");
+
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();

@@ -48,6 +48,9 @@ describe('SimpleERC721', function () {
     expect(marketplace.listing).to.equal(false);
     expect(marketplace.publisher).to.equal(owner.address);
     expect(marketplace.royalty.eq(BigNumber.from(1))).to.equal(true);
+
+    const ownerOfToken = await SimpleERC721Deployed.ownerOf(1);
+    expect(ownerOfToken).to.equal(addr1.address);
   });
 
   it('Calculate fee', async function () {
@@ -75,13 +78,13 @@ describe('SimpleERC721', function () {
     const addr1BalanceAfter = await ethers.provider.getBalance(addr1.address);
     const addr2BalanceAfter = await ethers.provider.getBalance(addr2.address);
 
-    // 1% fee
+    // +1% (fee)
     expect(ownerBalanceAfter.sub(ownerBalanceBefore).toNumber()).to.eq(10000000000);
 
-    // 99% recieve
+    // +99% (earning)
     expect(addr1BalanceAfter.sub(addr1BalanceBefore).toNumber()).to.eq(990000000000);
 
-    // 100% + gas
+    // -100% + gas (payment)
     expect(addr2BalanceAfter.sub(addr2BalanceBefore).toNumber()).to.lt(-1000000000000);
   });
 });

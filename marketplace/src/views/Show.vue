@@ -12,18 +12,51 @@
         <div class="columns">
           <div class="column">
             <div class="mb-3">
+              <h4 class="title is-4 mb-0">Metadata</h4>
+            </div>
+
+            <div class="mb-1">
+              <h6 class="title is-6 mb-0">Token ID</h6>
+              <span>{{ tokenId }}</span>
+            </div>
+
+            <div class="mb-1">
               <h6 class="title is-6 mb-0">Title</h6>
               <span>{{ asset.title }}</span>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-1">
               <h6 class="title is-6 mb-0">Description</h6>
               <span>{{ asset.description }}</span>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-1">
               <h6 class="title is-6 mb-0">Owner</h6>
-              <span>{{ owner }}</span>
+              <span>{{ item.owner }}</span>
+            </div>
+
+            <div class="mt-5 mb-3">
+              <h4 class="title is-4 mb-0">Marketplace</h4>
+            </div>
+
+            <div class="mb-1">
+              <h6 class="title is-6 mb-0">Listing</h6>
+              <span>{{ item.marketplace.listing }}</span>
+            </div>
+
+            <div class="mb-1" v-if="item.marketplace.listing">
+              <h6 class="title is-6 mb-0">Price</h6>
+              <span>{{ priceEth(item.marketplace.price) }}</span>
+            </div>
+
+            <div class="mb-1">
+              <h6 class="title is-6 mb-0">Publisher</h6>
+              <span>{{ item.marketplace.publisher }}</span>
+            </div>
+
+            <div class="mb-1">
+              <h6 class="title is-6 mb-0">Royalty (%)</h6>
+              <span>{{ item.marketplace.royalty }}</span>
             </div>
           </div>
 
@@ -41,10 +74,54 @@
       </template>
     </section>
 
-    <section class="section" v-if="owned">
+    <div class="mt-5 mb-5 has-text-centered has-text-weight-bold" v-if="message !== '' && message !== 'ERROR: {}'">
+      <span>Do NOT close browser now. {{ message }}</span>
+    </div>
+
+    <section class="section" v-if="item.owned && !item.marketplace.listing">
+      <h1 class="title">Marketplace</h1>
+      <h3 class="subtitle is-6">
+        You can set a price and sell your token.
+      </h3>
+
+      <div class="field">
+        <label class="label">Price (ETH)</label>
+        <div class="control">
+          <input class="input" type="number" placeholder="0.001" v-model="price">
+        </div>
+      </div>
+
+      <button :class="transactionButtonClass" @click="listOnMarketplace">
+        Set price
+      </button>
+    </section>
+
+    <section class="section" v-if="item.owned && item.marketplace.listing">
+      <h1 class="title">Marketplace</h1>
+      <h3 class="subtitle is-6">
+        You can remove your token from marketplace.
+      </h3>
+
+      <button :class="transactionButtonClass" @click="removeFromMarketplace">
+        Remove
+      </button>
+    </section>
+
+    <section class="section" v-if="!item.owned && item.marketplace.listing">
+      <h1 class="title">Purchase</h1>
+      <h3 class="subtitle is-6">
+        Price: {{ priceEth(item.marketplace.price) }} ETH
+      </h3>
+
+      <button :class="transactionButtonClass" @click="purchase">
+        Purchase
+      </button>
+    </section>
+
+    <section class="section" v-if="item.owned">
       <h1 class="title">Transfer</h1>
       <h3 class="subtitle is-6">
-        You are the owner of this token. You can transfer the ownership to another account.
+        You can transfer the ownership to another account.
       </h3>
 
       <div class="field">
@@ -54,13 +131,9 @@
         </div>
       </div>
 
-      <button :class="transferButtonClass" @click="transfer" :disabled="transferButtonDisabled">
+      <button :class="transactionButtonClass" @click="transfer" :disabled="transferButtonDisabled">
         Transfer
       </button>
-
-      <div class="mt-5 has-text-centered has-text-weight-bold" v-if="message !== '' && message !== 'ERROR: {}'">
-        <span>Do NOT close browser now. {{ message }}</span>
-      </div>
     </section>
   </div>
 </template>
@@ -71,11 +144,19 @@ import { API } from 'aws-amplify';
 import axios from 'axios';
 import { pollJob } from '../lib/pollJob';
 
-interface ItemResponse {
+interface Marketplace {
+  price: number;
+  listing: boolean;
+  publisher: string;
+  royalty: number;
+}
+
+interface Item {
   tokenId: string;
   tokenUri: string;
   owner: string;
   owned: boolean;
+  marketplace: Marketplace;
 }
 
 interface Asset {
@@ -86,22 +167,22 @@ interface Asset {
 
 @Component
 export default class Show extends Vue {
-  owner = '';
-  owned = false;
+  item: Item | null = null;
   asset: Asset | null = null;
   toAddress = '';
   txHash = '';
   message = '';
   pollingCounter = 0;
+  price = 0.001;
 
   loading = false;
-  transferring = false;
+  executing = false;
 
   get tokenId(): number {
     return Number(this.$route.params.id);
   }
 
-  async getItem(): Promise<ItemResponse> {
+  async getItem(): Promise<Item> {
     const res = await API.get('api', `/item/${this.tokenId}`, {});
     return res;
   }
@@ -116,39 +197,21 @@ export default class Show extends Vue {
       return;
     }
 
-    this.transferring = true;
+    await this.createNewTransaction(`/item/${this.tokenId}`, {
+      toAddress: this.toAddress,
+    });
+  }
 
-    try {
-      this.message = `Transferring to ${this.toAddress}...`;
+  async listOnMarketplace(): Promise<void> {
+    await this.createNewTransaction(`/item/${this.tokenId}/list`, { price: this.price });
+  }
 
-      const resJob = await API.post('api', `/item/${this.tokenId}`, {
-        body: {
-          toAddress: this.toAddress,
-          tokenId: this.tokenId,
-        },
-      });
+  async removeFromMarketplace(): Promise<void> {
+    await this.createNewTransaction(`/item/${this.tokenId}/unlist`, {});
+  }
 
-      this.pollingCounter = 0;
-
-      const jobId = resJob.jobId;
-      const txHash = await pollJob(jobId, (res) => {
-        this.pollingCounter += 1;
-        this.message = `Polling job... (Count: ${this.pollingCounter}, Current status: ${res.status})`;
-      });
-
-      // eslint-disable-next-line
-      this.txHash = txHash!;
-      this.message = 'Success! (Reloading the page in few seconds...)';
-      this.transferring = false;
-
-      setTimeout(() => {
-        this.$router.go(0);
-      }, 1500);
-    } catch (e) {
-      this.message = `ERROR: ${JSON.stringify(e)}`;
-    } finally {
-      this.transferring = false;
-    }
+  async purchase(): Promise<void> {
+    await this.createNewTransaction(`/item/${this.tokenId}/purchase`, {});
   }
 
   async mounted(): Promise<void> {
@@ -156,8 +219,7 @@ export default class Show extends Vue {
 
     try {
       const res = await this.getItem();
-      this.owner = res.owner;
-      this.owned = res.owned;
+      this.item = res;
       this.asset = await this.getAsset(res.tokenUri);
     } catch (e) {
       console.error(e);
@@ -166,8 +228,8 @@ export default class Show extends Vue {
     }
   }
 
-  get transferButtonClass(): string {
-    if (this.transferring) {
+  get transactionButtonClass(): string {
+    if (this.executing) {
       return 'button is-primary is-loading';
     } else {
       return 'button is-primary';
@@ -179,6 +241,43 @@ export default class Show extends Vue {
       return true;
     } else {
       return false;
+    }
+  }
+
+  priceEth(priceWei: number): number {
+    // eslint-disable-next-line
+    const Web3 = require('web3');
+
+    return Web3.utils.fromWei(priceWei, 'ether');
+  }
+
+  async createNewTransaction(path: string, body: { [key: string]: string|number }): Promise<void> {
+    this.executing = true;
+
+    try {
+      this.message = `Create new transaction...`;
+
+      const resJob = await API.post('api', path, { body });
+
+      this.pollingCounter = 0;
+
+      const jobId = resJob.jobId;
+
+      await pollJob(jobId, (res) => {
+        this.pollingCounter += 1;
+        this.message = `Polling job... (Count: ${this.pollingCounter}, Current status: ${res.status})`;
+      });
+
+      this.message = 'Success! (Reloading the page in few seconds...)';
+      this.executing = false;
+
+      setTimeout(() => {
+        this.$router.go(0);
+      }, 1500);
+    } catch (e) {
+      this.message = `ERROR: ${JSON.stringify(e)}`;
+    } finally {
+      this.executing = false;
     }
   }
 }
