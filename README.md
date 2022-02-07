@@ -1,8 +1,8 @@
 # Simple NFT Marketplace
 
-This project provides sample code to build a simple NFT 
-([Non-Fungible Token](https://aws.amazon.com/blockchain/nfts-explained/)) 
-based marketplace with Amazon Managed Blockchain. 
+This project provides sample code to build a simple NFT
+([Non-Fungible Token](https://aws.amazon.com/blockchain/nfts-explained/))
+based marketplace with Amazon Managed Blockchain.
 
 NFTs are cryptoassets in which each token is unique, and therefore able to create a relationship, or contract,
 between a specific unique token, and a specific asset - including physical asset, virtual asset and more.
@@ -26,7 +26,7 @@ You will use the following tool set:
 - Contract written in Solidity ([/contract](/contract))
 - Marketplace web UI ([/marketplace](/marketplace))
 
-This sample code is not a complete marketplace. Some critical features have not been implemented. It is just a sample of simple NFT creation/transfer using Amazon Managed Blockchain. There is no function to set prices or buy/sell tokens. The only thing implemented is the transfer between accounts. Do NOT use this codes in your production workloads.
+Do NOT use this codes in your production workloads.
 
 ## Architecture
 
