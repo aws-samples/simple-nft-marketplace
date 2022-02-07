@@ -3,23 +3,24 @@ import { getContext, finalizeJob } from './lib/context';
 interface JobParams {
   jobId: string;
   username: string;
-  toAddress: string;
   tokenId: number;
 }
 
 exports.handler = async (paramsJob: JobParams): Promise<void> => {
   try {
     const context = await getContext(paramsJob.username);
+    const contractAddress = context.contractAddress;
     const contract = context.contract;
     const account = context.account;
-    const contractAddress = context.contractAddress;
     const web3 = context.web3;
 
-    const tx = contract.methods.safeTransferFrom(account.address, paramsJob.toAddress, paramsJob.tokenId);
-    const gas = await tx.estimateGas({ from: account.address });
+    const marketplace = await contract.methods.marketplace(paramsJob.tokenId).call();
+    const tx = contract.methods.purchase(paramsJob.tokenId);
+    const gas = await tx.estimateGas({ from: account.address, value: marketplace.price });
     const signedTx = await account.signTransaction({
       to: contractAddress,
       data: tx.encodeABI(),
+      value: marketplace.price,
       gas,
     });
 

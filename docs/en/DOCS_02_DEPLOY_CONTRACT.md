@@ -39,6 +39,16 @@ npx hardhat compile
 
 After compiling, you should see directories `contract/artifacts` and `contract/cache`.
 
+## Testing (optional)
+
+> Note: If you would like to skip this step, proceed to [Deploy to Ethereum Ropsten](#).
+
+The following command will run the tests defined under `/contract/test`.
+
+```bash
+npx hardhat test
+```
+
 ## Verify build locally (optional)
 
 > Note: If you would like to skip this step, proceed to [Deploy to Ethereum Ropsten](#).

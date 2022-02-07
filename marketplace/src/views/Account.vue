@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="section">
-      <h1 class="title">Your Account</h1>
+      <h1 class="title">{{ username }}</h1>
 
       <template v-if="account">
         <div class="mb-3">
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { API } from 'aws-amplify';
+import { API, Auth } from 'aws-amplify';
 
 interface AccountInfo {
   address: string;
@@ -58,9 +58,13 @@ interface AccountInfo {
 export default class Account extends Vue {
   retrieve = false;
 
+  username = '';
   account: AccountInfo | null = null;
 
   async mounted(): Promise<void> {
+    const currentSession = await Auth.currentSession();
+    this.username = currentSession.getAccessToken().payload.username;
+
     const res = await API.get('api', '/account', {});
     this.account = res;
   }

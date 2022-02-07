@@ -101,7 +101,7 @@ export CONTRACT_ADDRESS=0x...
     const defaultFuncProps = {
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
-      timeout: cdk.Duration.minutes(1),
+      timeout: cdk.Duration.minutes(15),
       tracing: lambda.Tracing.ACTIVE,
       bundling: {
         commandHooks: {
@@ -198,6 +198,75 @@ export CONTRACT_ADDRESS=0x...
     jobTable.grantWriteData(transfer);
     transferJob.grantInvoke(transfer);
 
+    const listOnMarketplaceJob = new lambdaNodejs.NodejsFunction(this, 'ListOnMarketplaceJob', {
+      ...defaultFuncProps,
+      entry: './lambda/listOnMarketplaceJob.ts',
+      environment: {
+        ...defaultFuncEnvironments,
+      },
+    });
+
+    privateKeyTable.grantReadData(listOnMarketplaceJob);
+    jobTable.grantWriteData(listOnMarketplaceJob);
+
+    const listOnMarketplace = new lambdaNodejs.NodejsFunction(this, 'ListOnMarketplace', {
+      ...defaultFuncProps,
+      entry: './lambda/listOnMarketplace.ts',
+      environment: {
+        LIST_ON_MARKETPLACE_JOB_NAME: listOnMarketplaceJob.functionName,
+        ...defaultFuncEnvironments,
+      },
+    });
+
+    jobTable.grantWriteData(listOnMarketplace);
+    listOnMarketplaceJob.grantInvoke(listOnMarketplace);
+
+    const removeFromMarketplaceJob = new lambdaNodejs.NodejsFunction(this, 'RemoveFromMarketplaceJob', {
+      ...defaultFuncProps,
+      entry: './lambda/removeFromMarketplaceJob.ts',
+      environment: {
+        ...defaultFuncEnvironments,
+      },
+    });
+
+    privateKeyTable.grantReadData(removeFromMarketplaceJob);
+    jobTable.grantWriteData(removeFromMarketplaceJob);
+
+    const removeFromMarketplace = new lambdaNodejs.NodejsFunction(this, 'RemoveFromMarketplace', {
+      ...defaultFuncProps,
+      entry: './lambda/removeFromMarketplace.ts',
+      environment: {
+        REMOVE_FROM_MARKETPLACE_JOB_NAME: removeFromMarketplaceJob.functionName,
+        ...defaultFuncEnvironments,
+      },
+    });
+
+    jobTable.grantWriteData(removeFromMarketplace);
+    removeFromMarketplaceJob.grantInvoke(removeFromMarketplace);
+
+    const purchaseJob = new lambdaNodejs.NodejsFunction(this, 'PurchaseJob', {
+      ...defaultFuncProps,
+      entry: './lambda/purchaseJob.ts',
+      environment: {
+        ...defaultFuncEnvironments,
+      },
+    });
+
+    privateKeyTable.grantReadData(purchaseJob);
+    jobTable.grantWriteData(purchaseJob);
+
+    const purchase = new lambdaNodejs.NodejsFunction(this, 'Purchase', {
+      ...defaultFuncProps,
+      entry: './lambda/purchase.ts',
+      environment: {
+        PURCHASE_JOB_NAME: purchaseJob.functionName,
+        ...defaultFuncEnvironments,
+      },
+    });
+
+    jobTable.grantWriteData(purchase);
+    purchaseJob.grantInvoke(purchase);
+
     const getItem = new lambdaNodejs.NodejsFunction(this, 'GetItem', {
       ...defaultFuncProps,
       entry: './lambda/getItem.ts',
@@ -253,6 +322,9 @@ export CONTRACT_ADDRESS=0x...
     this.addAMBFullAccess(createItemJob);
     this.addAMBFullAccess(getItem);
     this.addAMBFullAccess(transferJob);
+    this.addAMBFullAccess(listOnMarketplaceJob);
+    this.addAMBFullAccess(removeFromMarketplaceJob);
+    this.addAMBFullAccess(purchaseJob);
 
     const authorizer = new agw.CognitoUserPoolsAuthorizer(this, 'Authorizer', {
       cognitoUserPools: [userPool],
@@ -271,6 +343,9 @@ export CONTRACT_ADDRESS=0x...
     const assetsKey = assets.addResource('{key}');
     const item = api.root.addResource('item');
     const itemId = item.addResource('{id}');
+    const itemIdList = itemId.addResource('list');
+    const itemIdUnlist = itemId.addResource('unlist');
+    const itemIdPurchase = itemId.addResource('purchase');
     const job = api.root.addResource('job');
     const jobId = job.addResource('{jobId}');
 
@@ -281,6 +356,9 @@ export CONTRACT_ADDRESS=0x...
     this.defineAPIRoute('POST', item, createItem, authorizer);
     this.defineAPIRoute('GET', itemId, getItem, authorizer);
     this.defineAPIRoute('POST', itemId, transfer, authorizer);
+    this.defineAPIRoute('POST', itemIdList, listOnMarketplace, authorizer);
+    this.defineAPIRoute('POST', itemIdUnlist, removeFromMarketplace, authorizer);
+    this.defineAPIRoute('POST', itemIdPurchase, purchase, authorizer);
     this.defineAPIRoute('GET', jobId, getJob, authorizer);
 
     api.addGatewayResponse('Api4xx', {
@@ -299,17 +377,17 @@ export CONTRACT_ADDRESS=0x...
 
     new cdk.CfnOutput(this, 'UserPoolId', {
       value: userPool.userPoolId,
-      exportName: 'UserPoolId',
+      exportName: 'userPoolId',
     });
 
     new cdk.CfnOutput(this, 'UserPoolClientId', {
       value: client.userPoolClientId,
-      exportName: 'UserPoolClientId',
+      exportName: 'userPoolClientId',
     });
 
     new cdk.CfnOutput(this, 'NftApiEndpoint', {
       value: api.url,
-      exportName: 'NftApiEndpoint',
+      exportName: 'nftApiEndpoint',
     });
   }
 

@@ -28,6 +28,16 @@ npx hardhat compile
 
 `artifacts` と `cache` というディレクトリが作成されたら完了です。
 
+## テスト
+
+> この手順はスキップ可能です。スキップした場合は [Amazon Managed Blockchain 経由で Ethereum Ropsten にデプロイ](#) に進んでください。
+
+以下のコマンドを実行すると、`/contract/test` 以下に定義されたテストを実行します。
+
+```bash
+npx hardhat test
+```
+
 ## ローカルで動作検証 (オプショナル)
 
 > この手順はスキップ可能です。スキップした場合は [Amazon Managed Blockchain 経由で Ethereum Ropsten にデプロイ](#) に進んでください。

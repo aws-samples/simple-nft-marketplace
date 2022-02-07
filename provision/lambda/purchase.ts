@@ -2,18 +2,13 @@ import * as lambda from 'aws-lambda';
 import * as AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
-const createItemJobName = process.env.CREATE_ITEM_JOB_NAME;
+const purchaseJobName = process.env.PURCHASE_JOB_NAME;
 const tableName = process.env.TABLE_JOB;
 const ddb = new AWS.DynamoDB();
 const lambdaFunction = new AWS.Lambda();
 
-interface Item {
-  assetMetadataUrl: string;
-  royalty: number;
-}
-
 exports.handler = async (event: lambda.APIGatewayProxyEvent): Promise<lambda.APIGatewayProxyResult> => {
-  const item: Item = JSON.parse(event.body);
+  const tokenId = event.pathParameters.id;
   const username = event.requestContext.authorizer.claims['cognito:username'];
   const jobId = uuidv4();
 
@@ -27,14 +22,9 @@ exports.handler = async (event: lambda.APIGatewayProxyEvent): Promise<lambda.API
 
   await ddb.putItem(paramsJobStatus).promise();
   await lambdaFunction.invoke({
-    FunctionName: createItemJobName,
+    FunctionName: purchaseJobName,
     InvocationType: 'Event',
-    Payload: JSON.stringify({
-      jobId,
-      username,
-      assetMetadataUrl: item.assetMetadataUrl,
-      royalty: item.royalty,
-    }),
+    Payload: JSON.stringify({ jobId, username, tokenId }),
   }).promise();
 
   return {

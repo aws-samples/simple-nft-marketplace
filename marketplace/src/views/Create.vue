@@ -43,12 +43,19 @@
         </div>
       </div>
 
+      <div class="field">
+        <label class="label">Royalty Percentage</label>
+        <div class="control">
+          <input class="input" type="number" placeholder="Royalty Percentage (e.g. 2)" v-model="royalty">
+        </div>
+      </div>
+
       <div class="is-flex is-flex-direction-row is-justify-content-center mt-5">
         <button :class="createButtonClass" @click="createNft" :disabled="createButtonDisabled">CREATE</button>
       </div>
 
       <div class="mt-5 has-text-centered has-text-weight-bold" v-if="message !== ''">
-        <span>Do NOT close browser now. {{ message }}</span>
+        <span>{{ message }}</span>
       </div>
     </section>
   </div>
@@ -73,6 +80,7 @@ export default class Create extends Vue {
   description = '';
   message = '';
   pollingCounter = 0;
+  royalty = 5;
 
   uploading = false;
   creating = false;
@@ -99,6 +107,11 @@ export default class Create extends Vue {
   }
 
   async createNft(): Promise<void> {
+    if (!Number.isInteger(this.royalty)) {
+      this.message = 'Royalty must be integer (e.g. 5)';
+      return;
+    }
+
     this.creating = true;
     this.message = 'Creating asset...';
 
@@ -112,10 +125,13 @@ export default class Create extends Vue {
       });
       const assetMetadataUrl = resAsset.assetMetadataUrl;
 
-      this.message = 'Creating NFT...';
+      this.message = 'Do NOT close browser now. Creating NFT...';
 
       const resItem = await API.post('api', '/item', {
-        body: { assetMetadataUrl },
+        body: {
+          assetMetadataUrl,
+          royalty: this.royalty,
+        },
       });
 
       this.pollingCounter = 0;
@@ -123,7 +139,7 @@ export default class Create extends Vue {
       const jobId = resItem.jobId;
       const resJob = await pollJob(jobId, (res) => {
         this.pollingCounter += 1;
-        this.message = `Polling job... (Count: ${this.pollingCounter}, Current status: ${res.status})`;
+        this.message = `Do NOT close browser now. Polling job... (Count: ${this.pollingCounter}, Current status: ${res.status})`;
       });
 
       // eslint-disable-next-line
@@ -156,7 +172,12 @@ export default class Create extends Vue {
   }
 
   get createButtonDisabled(): boolean {
-    if ((this.title !== '' && this.description !== '' && this.assetUrl !== null) && !this.creating) {
+    if (
+      (this.title !== '' &&
+       this.description !== '' &&
+       this.assetUrl !== null &&
+       this.assetUrl !== ''
+      ) && !this.creating) {
       return false;
     } else {
       return true;

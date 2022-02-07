@@ -96,6 +96,8 @@ When the transfer is complete, the page will automatically reload and you can se
 that the owner has a different address and your current user is no longer able
 to transfer since they no longer own the NFT.
 
+The page also shows whether the token is displayed in the marketplace (boolean), the creator of the NFT (the account that receives the royalty), and the royalty percentage. The owner of the token can set the price and publish it on the marketplace. Published tokens can be purchased by accounts other than the owner.
+
 ## Next Step
 
 ### [Deploy Front End][3]

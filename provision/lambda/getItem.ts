@@ -28,6 +28,7 @@ exports.handler = async (event: lambda.APIGatewayProxyEvent): Promise<lambda.API
   const tokenId = Number(event.pathParameters.id);
   const tokenUri = await contract.methods.tokenURI(tokenId).call();
   const owner = await contract.methods.ownerOf(tokenId).call();
+  const marketplace = await contract.methods.marketplace(tokenId).call();
 
   return {
     statusCode: 200,
@@ -35,6 +36,17 @@ exports.handler = async (event: lambda.APIGatewayProxyEvent): Promise<lambda.API
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     },
-    body: JSON.stringify({ tokenId, tokenUri, owner, owned: account.address === owner }),
+    body: JSON.stringify({
+      tokenId,
+      tokenUri,
+      owner,
+      owned: account.address === owner,
+      marketplace: {
+        price: marketplace.price,
+        listing: marketplace.listing,
+        publisher: marketplace.publisher,
+        royalty: marketplace.royalty,
+      },
+    }),
   };
 }
