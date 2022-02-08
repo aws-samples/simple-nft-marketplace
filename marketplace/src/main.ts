@@ -2,7 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import Amplify, { Auth } from 'aws-amplify';
-import '@aws-amplify/ui-vue';
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@aws-amplify/ui-components/loader';
 import 'bulma/css/bulma.css';
 
 Vue.config.productionTip = false;
@@ -31,6 +34,12 @@ Amplify.configure({
     userPoolWebClientId: process.env.VUE_APP_USER_POOL_WEB_CLIENT_ID,
   },
 });
+
+applyPolyfills().then(() => {
+  defineCustomElements(window);
+});
+
+Vue.config.ignoredElements = [/amplify-\w*/];
 
 new Vue({
   router,
