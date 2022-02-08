@@ -8,6 +8,7 @@
           Loading ...
         </div>
       </template>
+
       <template v-else-if="asset">
         <div class="columns">
           <div class="column">
@@ -78,7 +79,7 @@
       <span>Do NOT close browser now. {{ message }}</span>
     </div>
 
-    <section class="section" v-if="item.owned && !item.marketplace.listing">
+    <section class="section" v-if="item && item.owned && !item.marketplace.listing">
       <h1 class="title">Marketplace</h1>
       <h3 class="subtitle is-6">
         You can set a price and sell your token.
@@ -96,7 +97,7 @@
       </button>
     </section>
 
-    <section class="section" v-if="item.owned && item.marketplace.listing">
+    <section class="section" v-if="item && item.owned && item.marketplace.listing">
       <h1 class="title">Marketplace</h1>
       <h3 class="subtitle is-6">
         You can remove your token from marketplace.
@@ -107,7 +108,7 @@
       </button>
     </section>
 
-    <section class="section" v-if="!item.owned && item.marketplace.listing">
+    <section class="section" v-if="item && !item.owned && item.marketplace.listing">
       <h1 class="title">Purchase</h1>
       <h3 class="subtitle is-6">
         Price: {{ priceEth(item.marketplace.price) }} ETH
@@ -118,7 +119,7 @@
       </button>
     </section>
 
-    <section class="section" v-if="item.owned">
+    <section class="section" v-if="item && item.owned">
       <h1 class="title">Transfer</h1>
       <h3 class="subtitle is-6">
         You can transfer the ownership to another account.
