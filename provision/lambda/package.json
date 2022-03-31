@@ -1,13 +1,12 @@
 {
   "dependencies": {
     "@aws/web3-http-provider": "^1.0.1",
-    "@types/aws-lambda": "^8.10.92",
+    "@types/aws-lambda": "^8.10.93",
     "@types/uuid": "^8.3.4",
     "abi-decoder": "^2.4.0",
     "aws-lambda": "^1.0.7",
-    "aws-sdk": "^2.1070.0",
-    "electron": "^17.0.0",
+    "aws-sdk": "^2.1104.0",
     "uuid": "^8.3.2",
-    "web3": "^1.7.0"
+    "web3": "^1.7.1"
   }
 }
