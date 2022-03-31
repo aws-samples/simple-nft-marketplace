@@ -1,21 +1,22 @@
-import * as cdk from '@aws-cdk/core';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as lambdaNodejs from '@aws-cdk/aws-lambda-nodejs';
-import * as agw from '@aws-cdk/aws-apigateway';
-import * as iam from '@aws-cdk/aws-iam';
-import * as cognito from '@aws-cdk/aws-cognito';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as cfn from '@aws-cdk/aws-cloudfront';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
+import { Stack, StackProps, CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as agw from 'aws-cdk-lib/aws-apigateway';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as cfn from 'aws-cdk-lib/aws-cloudfront';
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
-interface ProvisionStackProps extends cdk.StackProps {
+interface ProvisionStackProps extends StackProps {
   ambHttpEndpoint: string;
   contractAddress: string;
 }
 
-export class ProvisionStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: ProvisionStackProps) {
+export class ProvisionStack extends Stack {
+  constructor(scope: Construct, id: string, props: ProvisionStackProps) {
     super(scope, id, props);
     let {
       ambHttpEndpoint,
@@ -71,13 +72,13 @@ export CONTRACT_ADDRESS=0x...
         username: true,
         email: true
       },
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const client = userPool.addClient('WebClient', {
       userPoolClientName: 'webClient',
-      idTokenValidity: cdk.Duration.days(1),
-      accessTokenValidity: cdk.Duration.days(1),
+      idTokenValidity: Duration.days(1),
+      accessTokenValidity: Duration.days(1),
       authFlows: {
         userPassword: true,
         userSrp: true,
@@ -101,7 +102,7 @@ export CONTRACT_ADDRESS=0x...
     const defaultFuncProps = {
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_14_X,
-      timeout: cdk.Duration.minutes(15),
+      timeout: Duration.minutes(15),
       tracing: lambda.Tracing.ACTIVE,
       bundling: {
         commandHooks: {
@@ -375,17 +376,17 @@ export CONTRACT_ADDRESS=0x...
       },
     });
 
-    new cdk.CfnOutput(this, 'UserPoolId', {
+    new CfnOutput(this, 'UserPoolId', {
       value: userPool.userPoolId,
       exportName: 'userPoolId',
     });
 
-    new cdk.CfnOutput(this, 'UserPoolClientId', {
+    new CfnOutput(this, 'UserPoolClientId', {
       value: client.userPoolClientId,
       exportName: 'userPoolClientId',
     });
 
-    new cdk.CfnOutput(this, 'NftApiEndpoint', {
+    new CfnOutput(this, 'NftApiEndpoint', {
       value: api.url,
       exportName: 'nftApiEndpoint',
     });

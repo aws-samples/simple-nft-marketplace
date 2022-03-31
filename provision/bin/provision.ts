@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import { App } from 'aws-cdk-lib/core';
 import { ProvisionStack } from '../lib/provision-stack';
 import { FrontendStack } from '../lib/frontend-stack';
 import { AmbStack } from '../lib/amb-stack';
@@ -14,7 +14,7 @@ if (!fs.existsSync(distPath)) {
   fs.mkdirSync(distPath);
 }
 
-const app = new cdk.App();
+const app = new App();
 
 new AmbStack(app, 'SimpleNftMarketplaceBlockchainNode');
 
