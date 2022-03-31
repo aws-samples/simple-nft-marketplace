@@ -13,10 +13,9 @@
     "destroy": "cross-env AMB_HTTP_ENDPOINT='placeholder' CONTRACT_ADDRESS='placeholder' cdk destroy --all"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "2.10.0",
     "@types/jest": "^27.4.0",
     "@types/node": "17.0.16",
-    "aws-cdk": "2.10.0",
+    "aws-cdk": "2.18.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.20",
     "jest": "^27.5.0",
@@ -25,19 +24,7 @@
     "typescript": "~4.5.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigateway": "1.143.0",
-    "@aws-cdk/aws-cloudfront": "1.143.0",
-    "@aws-cdk/aws-cloudfront-origins": "1.143.0",
-    "@aws-cdk/aws-cognito": "1.143.0",
-    "@aws-cdk/aws-dynamodb": "1.143.0",
-    "@aws-cdk/aws-ec2": "1.143.0",
-    "@aws-cdk/aws-iam": "1.143.0",
-    "@aws-cdk/aws-lambda": "1.143.0",
-    "@aws-cdk/aws-lambda-nodejs": "1.143.0",
-    "@aws-cdk/aws-managedblockchain": "1.143.0",
-    "@aws-cdk/aws-s3": "1.143.0",
-    "@aws-cdk/aws-s3-deployment": "1.143.0",
-    "@aws-cdk/core": "1.143.0",
+    "aws-cdk-lib": "2.18.0",
     "source-map-support": "^0.5.21"
   }
 }

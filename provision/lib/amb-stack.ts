@@ -1,12 +1,13 @@
-import * as cdk from '@aws-cdk/core';
-import * as managedblockchain from '@aws-cdk/aws-managedblockchain';
+import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as managedblockchain from 'aws-cdk-lib/aws-managedblockchain';
 
-export class AmbStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class AmbStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const [firstAz] = cdk.Stack.of(this).availabilityZones;
-    const region = cdk.Stack.of(this).region;
+    const [firstAz] = Stack.of(this).availabilityZones;
+    const region = Stack.of(this).region;
 
     const ambNode = new managedblockchain.CfnNode(this, 'Node', {
       networkId: 'n-ethereum-ropsten',
@@ -18,12 +19,12 @@ export class AmbStack extends cdk.Stack {
 
     const ambHttpEndpoint = `https://${ambNode.attrNodeId}.ethereum.managedblockchain.${region}.amazonaws.com`;
 
-    new cdk.CfnOutput(this, 'AmbHttpEndpoint', {
+    new CfnOutput(this, 'AmbHttpEndpoint', {
       value: ambHttpEndpoint,
       exportName: 'AmbHttpEndpoint',
     });
 
-    new cdk.CfnOutput(this, 'DeployRegion', {
+    new CfnOutput(this, 'DeployRegion', {
       value: region,
       exportName: 'DeployRegion',
     })
