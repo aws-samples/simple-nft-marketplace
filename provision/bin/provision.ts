@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import { App } from 'aws-cdk-lib/core';
+import { App } from 'aws-cdk-lib';
 import { ProvisionStack } from '../lib/provision-stack';
 import { FrontendStack } from '../lib/frontend-stack';
 import { AmbStack } from '../lib/amb-stack';
