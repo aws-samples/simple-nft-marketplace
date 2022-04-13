@@ -15,7 +15,7 @@
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "@types/node": "17.0.16",
-    "aws-cdk": "2.18.0",
+    "aws-cdk": "^2.20.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.20",
     "jest": "^27.5.0",
