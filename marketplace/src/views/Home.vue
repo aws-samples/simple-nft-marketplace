@@ -2,7 +2,9 @@
   <div>
     <section class="section">
       <h1 class="title">Create NFT</h1>
-      <router-link class="button is-primary" :to="{ name: 'Create' }">Create NFT</router-link>
+      <router-link class="button is-primary" :to="{ name: 'Create' }"
+        >Create NFT</router-link
+      >
     </section>
 
     <section class="section">
@@ -12,21 +14,30 @@
         <div class="field mb-0">
           <label class="label">Token ID</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Token ID" v-model="tokenId">
+            <input
+              class="input"
+              type="text"
+              placeholder="Token ID"
+              v-model="tokenId"
+            />
           </div>
         </div>
 
-        <router-link class="button is-primary ml-2" :to="{ name: 'Show', params: { id: '1' } }">Show NFT</router-link>
+        <router-link
+          class="button is-primary ml-2"
+          :to="{ name: 'Show', params: { id: tokenId } }"
+          >Show NFT</router-link
+        >
       </div>
     </section>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Home extends Vue {
-  tokenId = '';
+  tokenId = "";
 }
 </script>
