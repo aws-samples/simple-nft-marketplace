@@ -155,7 +155,7 @@ const deployAmbNode = async () => {
     )
   );
   await keypress();
-  await commandWithPipe('npx cdk bootstrap', {
+  await commandWithPipe('cdk bootstrap', {
     cwd: PATHS.provision,
     env: {
       // Placeholder values to prevent synth from failing
@@ -164,7 +164,7 @@ const deployAmbNode = async () => {
     },
   });
   await commandWithPipe(
-    `npx cdk deploy SimpleNftMarketplaceBlockchainNode \
+    `cdk deploy SimpleNftMarketplaceBlockchainNode \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs} \
 `,
@@ -195,7 +195,7 @@ const deployApi = async () => {
   const contractAddress = await getFromSettings('contractAddress');
   const endpoint = await getFromSettings('ambEndpoint');
   await commandWithPipe(
-    `npx cdk deploy SimpleNftMarketplaceStack \
+    `cdk deploy SimpleNftMarketplaceStack \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs}`,
     {
@@ -304,7 +304,7 @@ const buildFrontEnd = async () => {
 const deployFrontEnd = async () => {
   logProgress('Deploy UI');
   const deploy = commandWithPipe(
-    `npx cdk deploy SimpleNftMarketplaceFrontendStack \
+    `cdk deploy SimpleNftMarketplaceFrontendStack \
     --require-approval never`,
     {
       cwd: PATHS.provision,
