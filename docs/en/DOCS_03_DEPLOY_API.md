@@ -29,12 +29,6 @@ run the following to install dependencies.
 npm install
 ```
 
-If you are new to CDK, you need to bootstrap. Please execute the following command.
-
-```bash
-cdk bootstrap
-```
-
 You will need to install the dependencies in the `provision/lambda` directory
 as well. You can do this by running the following command.
 
@@ -67,6 +61,12 @@ previous steps and execute it.
 ```bash
 export AMB_HTTP_ENDPOINT='https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com'
 export CONTRACT_ADDRESS='0x...'
+```
+
+If you are new to CDK, you need to bootstrap. Please execute the following command.
+
+```bash
+cdk bootstrap
 ```
 
 Finally to deploy, execute the following command.

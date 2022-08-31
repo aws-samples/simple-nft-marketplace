@@ -65,7 +65,7 @@ export default class Account extends Vue {
     const currentSession = await Auth.currentSession();
     this.username = currentSession.getAccessToken().payload.username;
 
-    const res = await API.get('api', '/account', {});
+    const res = await API.get('api', 'account', {});
     this.account = res;
   }
 }
