@@ -99,11 +99,11 @@ in the previous step.
 ```js
 const SimpleERC721 = await ethers.getContractFactory('SimpleERC721');
 const contract = await SimpleERC721.attach('<contract address>');
-await contract.newItem('dummy');
+await contract.newItem('dummy', 1);
 ```
 
 You have now issued a new NFT token. Normally, the `'dummy'` value would be in
-URI format, but for verification purposes it is just a string.
+URI format, but for verification purposes it is just a string. The second argument here is the royalty amount expected from the asset usage.
 
 The contract manages a unique ID value named tokenId internally. The tokenId is
 incremented each time an NFT is issued and has a one-to-one association with the
