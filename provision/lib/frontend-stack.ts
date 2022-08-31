@@ -1,11 +1,12 @@
-import * as cdk from '@aws-cdk/core';
-import * as cloudfront from '@aws-cdk/aws-cloudfront';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as s3Deployment from '@aws-cdk/aws-s3-deployment';
+import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as s3Deployment from 'aws-cdk-lib/aws-s3-deployment';
 import * as path from 'path';
 
-export class FrontendStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+export class FrontendStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     const bucket = new s3.Bucket(this, 'Bucket', {
@@ -49,8 +50,8 @@ export class FrontendStack extends cdk.Stack {
       distributionPaths: ['/*'],
     });
 
-    new cdk.CfnOutput(this, 'CfnEndpoint', {
-      value: `https://${distribution.domainName}`,
+    new CfnOutput(this, 'CfnEndpoint', {
+      value: `https://${distribution.distributionDomainName}`,
     });
   }
 }

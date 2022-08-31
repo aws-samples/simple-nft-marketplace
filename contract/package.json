@@ -1,13 +1,14 @@
 {
   "devDependencies": {
     "@aws/web3-http-provider": "^1.0.1",
-    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@openzeppelin/contracts": "^4.3.2",
-    "ethers": "^5.4.7",
-    "hardhat": "^2.6.5",
-    "web3": "^1.6.0",
-    "json-schema": ">=0.4.0",
-    "ansi-regex": ">=5.0.1"
+    "@openzeppelin/contracts": "^4.5.0",
+    "ethers": "^5.6.2",
+    "hardhat": "^2.9.2",
+    "web3": "^1.7.1"
+  },
+  "dependencies": {
+    "chai": "^4.3.6"
   }
 }
