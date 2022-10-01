@@ -73,7 +73,7 @@ npx hardhat console --network localhost
 ```js
 const SimpleERC721 = await ethers.getContractFactory('SimpleERC721');
 const contract = await SimpleERC721.attach('<contract address>');
-await contract.newItem('dummy');
+await contract.newItem('dummy', 1);
 ```
 
 これで新しい NFT トークンを発行しました。なお、本来は `dummy` の部分は URI 形式である必要がありますが、今回は検証のため、単に文字列としています。
