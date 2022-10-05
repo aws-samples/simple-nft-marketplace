@@ -64,7 +64,7 @@ cp ../contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json lambda/con
 npm run build
 ```
 
-続いて、必要な環境変数を設定します。Amazon Managed Blockchain のエンドポイントとデプロイした Contract でアドレスは環境変数から読み取ります。`AMB_HTTP_ENDPOINT` は [Ethereum Testnet Ropsten のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md) で作成したノードの HTTP エンドポイントで、`CONTRACT_ADDRESS` は [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md) でデプロイした Contract のアドレスです。以下のコマンドを適切な値に置き換えて実行してください。
+続いて、必要な環境変数を設定します。Amazon Managed Blockchain のエンドポイントとデプロイした Contract でアドレスは環境変数から読み取ります。`AMB_HTTP_ENDPOINT` は [Ethereum Testnet Goerli のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md) で作成したノードの HTTP エンドポイントで、`CONTRACT_ADDRESS` は [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md) でデプロイした Contract のアドレスです。以下のコマンドを適切な値に置き換えて実行してください。
 
 ```bash
 export AMB_HTTP_ENDPOINT=https://<node id>.ethereum.managedblockchain.<region>.amazonaws.com
@@ -74,7 +74,7 @@ export CONTRACT_ADDRESS=0x...
 最後に、デプロイを実施します。以下のコマンドを実行してください。
 
 ```bash
-cdk deploy SimpleNftMarketplaceStack
+cdk deploy MarketplaceStackTest01
 ```
 
 以上でデプロイは完了です。デプロイ完了時に表示される API Gateway のエンドポイント、Congito の UserPool ID と Client ID の 3 つは後続の手順で必要になるので、転記しておいてください。
@@ -82,6 +82,7 @@ cdk deploy SimpleNftMarketplaceStack
 ## 次の手順
 
 **後続の手順で必要になるもの**
+
 - API Gateway のエンドポイント
 - Congito User Pool の ID
 - Cognito User Pool Client の ID

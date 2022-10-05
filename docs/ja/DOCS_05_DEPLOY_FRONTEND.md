@@ -25,7 +25,7 @@ export AWS_DEFAULT_REGION=<region>
 続いて、`/provision` ディレクトリで以下のコマンドを実行します。
 
 ```bash
-cdk deploy SimpleNftMarketplaceFrontendStack
+cdk deploy MarketplaceFrontendStackTest01
 ```
 
 以上でデプロイは完了です。デプロイ完了時に表示される CloudFront のエンドポイントにアクセスしてページが正常に表示されれば成功です。
