@@ -32,11 +32,9 @@ exports.handler = async (
       user: process.env.DB_USER,
       password: process.env.DB_PASS,
     });
-
     connection.connect();
 
-    console.log("account.privateKey: " + account.privateKey);
-    const rows = await connection.execute(
+    await connection.execute(
       "INSERT INTO " +
         tableName +
         " (`id`, `key`) VALUES ('" +
@@ -45,7 +43,6 @@ exports.handler = async (
         account.privateKey +
         "')"
     );
-    console.log(rows);
   } else {
     await ddb.putItem(params).promise();
   }
