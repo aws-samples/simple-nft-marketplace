@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const fs = require('fs-extra');
-const path = require('path');
-const execa = require('execa');
-const AWS = require('aws-sdk');
-const chalk = require('chalk');
+const fs = require("fs-extra");
+const path = require("path");
+const execa = require("execa");
+const AWS = require("aws-sdk");
+const chalk = require("chalk");
 
 let credentials = {};
 
@@ -13,41 +13,41 @@ const setAWSCredentials = async () => {
     const credentialProviderChain = new AWS.CredentialProviderChain();
     credentials = await credentialProviderChain.resolvePromise();
   } catch (e) {
-    console.error('Failed to get AWS credentials');
+    console.error("Failed to get AWS credentials");
     throw e;
   }
 };
 
-const SETTINGS = path.resolve(__dirname, 'deploy-settings.json');
+const SETTINGS = path.resolve(__dirname, "deploy-settings.json");
 
 const PATHS = {
-  contract: path.resolve(__dirname, './contract'),
-  provision: path.resolve(__dirname, './provision'),
-  marketplace: path.resolve(__dirname, './marketplace'),
-  stackOutputs: path.resolve(__dirname, './provision/stack-outputs.json'),
-  marketplaceEnv: path.resolve(__dirname, './marketplace/.env.local'),
+  contract: path.resolve(__dirname, "./contract"),
+  provision: path.resolve(__dirname, "./provision"),
+  marketplace: path.resolve(__dirname, "./marketplace"),
+  stackOutputs: path.resolve(__dirname, "./provision/stack-outputs.json"),
+  marketplaceEnv: path.resolve(__dirname, "./marketplace/.env.local"),
   lambdaContract: path.resolve(
     __dirname,
-    './provision/lambda/contracts/SimpleERC721.json'
+    "./provision/lambda/contracts/SimpleERC721.json"
   ),
   compiledContract: path.resolve(
     __dirname,
-    './contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json'
+    "./contract/artifacts/contracts/SimpleERC721.sol/SimpleERC721.json"
   ),
 };
 
 const logProgress = (description, complete = false) => {
-  let msg = '';
+  let msg = "";
   complete
     ? (msg = `🙌 ${description} Complete `)
-    : (msg = `⌛ ${description} \n${'-'.repeat(process.stdout.columns)}`);
+    : (msg = `⌛ ${description} \n${"-".repeat(process.stdout.columns)}`);
   console.log(chalk.bgGreen.bold.white(msg));
 };
 
 const keypress = async () => {
   process.stdin.setRawMode(true);
-  return new Promise(resolve =>
-    process.stdin.once('data', () => {
+  return new Promise((resolve) =>
+    process.stdin.once("data", () => {
       process.stdin.setRawMode(false);
       resolve();
     })
@@ -71,13 +71,13 @@ const writeToSettings = async (key, value) => {
   await fs.writeJSON(SETTINGS, { ...settings, [key]: value });
 };
 
-const getFromSettings = async key => {
+const getFromSettings = async (key) => {
   try {
     await fs.ensureFile(SETTINGS);
     const settings = await fs.readJson(SETTINGS, { throws: false });
     return settings && settings[key];
   } catch (e) {
-    console.error('Failed to read settings file');
+    console.error("Failed to read settings file");
     throw e;
   }
 };
@@ -88,7 +88,7 @@ const getFromStackOutput = async (stack, key) => {
     const outputs = await fs.readJSON(PATHS.stackOutputs);
     return outputs[stack][key];
   } catch (e) {
-    console.error('Failed to read from stack outputs');
+    console.error("Failed to read from stack outputs");
     throw e;
   }
 };
@@ -98,7 +98,7 @@ const copyStackOutputToSettings = async (stack, outputKey, settingsKey) => {
   await writeToSettings(settingsKey, stackOutputValue);
 };
 
-const markAsComplete = async name => {
+const markAsComplete = async (name) => {
   await writeToSettings(name, true);
 };
 
@@ -116,55 +116,55 @@ const checkBin = async ({ bin, install }) => {
 };
 
 const checkDependencies = async () => {
-  logProgress('Checking dependencies');
-  await checkBin({ bin: 'cdk', install: 'npm install -g aws-cdk' });
-  logProgress('Checking dependencies', true);
+  logProgress("Checking dependencies");
+  await checkBin({ bin: "cdk", install: "npm install -g aws-cdk" });
+  logProgress("Checking dependencies", true);
 };
 
 const compileContract = async () => {
-  logProgress('Compile Contract');
-  await commandWithPipe('npx hardhat compile', {
+  logProgress("Compile Contract");
+  await commandWithPipe("npx hardhat compile", {
     cwd: PATHS.contract,
   });
   await fs.copy(PATHS.compiledContract, PATHS.lambdaContract, {
     overwrite: true,
   });
-  logProgress('Compile Contract', true);
+  logProgress("Compile Contract", true);
 };
 
 const createAccount = async () => {
-  logProgress('Create Account');
-  const account = commandWithPipe('npx hardhat account', {
+  logProgress("Create Account");
+  const account = commandWithPipe("npx hardhat account", {
     cwd: PATHS.contract,
   });
   const { stdout } = await account;
   const [address] = stdout.match(/(0x[a-fA-F0-9]{40})/);
   const [privateKey] = stdout.match(/(0x[a-fA-F0-9]{64})/);
-  if (!address) throw new Error('Unable to parse ethereum address');
-  if (!privateKey) throw new Error('Unable to parse ethereum private key');
-  await writeToSettings('address', address);
-  await writeToSettings('privateKey', privateKey);
-  logProgress('Create Account', true);
+  if (!address) throw new Error("Unable to parse ethereum address");
+  if (!privateKey) throw new Error("Unable to parse ethereum private key");
+  await writeToSettings("address", address);
+  await writeToSettings("privateKey", privateKey);
+  logProgress("Create Account", true);
 };
 
 const deployAmbNode = async () => {
-  logProgress('Deploy Amazon Managed Blockchain Node');
+  logProgress("Deploy Amazon Managed Blockchain Node");
   console.log(
     chalk.green.bold(
-      'Press any key to begin deploying AMB node. NOTE: This can take up to 30 minutes.'
+      "Press any key to begin deploying AMB node. NOTE: This can take up to 30 minutes."
     )
   );
   await keypress();
-  await commandWithPipe('cdk bootstrap', {
+  await commandWithPipe("cdk bootstrap", {
     cwd: PATHS.provision,
     env: {
       // Placeholder values to prevent synth from failing
-      AMB_HTTP_ENDPOINT: 'placeholder',
-      CONTRACT_ADDRESS: 'placeholder',
+      AMB_HTTP_ENDPOINT: "placeholder",
+      CONTRACT_ADDRESS: "placeholder",
     },
   });
   await commandWithPipe(
-    `cdk deploy SimpleNftMarketplaceBlockchainNode \
+    `cdk deploy MarketplaceBlockchainNode01 \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs} \
 `,
@@ -172,30 +172,30 @@ const deployAmbNode = async () => {
       cwd: PATHS.provision,
       env: {
         // Placeholder values to prevent synth from failing
-        AMB_HTTP_ENDPOINT: 'placeholder',
-        CONTRACT_ADDRESS: 'placeholder',
+        AMB_HTTP_ENDPOINT: "placeholder",
+        CONTRACT_ADDRESS: "placeholder",
       },
     }
   );
   await copyStackOutputToSettings(
-    'SimpleNftMarketplaceBlockchainNode',
-    'AmbHttpEndpoint',
-    'ambEndpoint'
+    "MarketplaceBlockchainNode01",
+    "AmbHttpEndpoint",
+    "ambEndpoint"
   );
   await copyStackOutputToSettings(
-    'SimpleNftMarketplaceBlockchainNode',
-    'DeployRegion',
-    'region'
+    "MarketplaceBlockchainNode01",
+    "DeployRegion",
+    "region"
   );
-  logProgress('Deploy Amazon Managed Blockchain Node', true);
+  logProgress("Deploy Amazon Managed Blockchain Node", true);
 };
 
 const deployApi = async () => {
-  logProgress('Deploy API');
-  const contractAddress = await getFromSettings('contractAddress');
-  const endpoint = await getFromSettings('ambEndpoint');
+  logProgress("Deploy API");
+  const contractAddress = await getFromSettings("contractAddress");
+  const endpoint = await getFromSettings("ambEndpoint");
   await commandWithPipe(
-    `cdk deploy SimpleNftMarketplaceStack \
+    `cdk deploy MarketplaceStack01 \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs}`,
     {
@@ -207,25 +207,25 @@ const deployApi = async () => {
     }
   );
   await copyStackOutputToSettings(
-    'SimpleNftMarketplaceStack',
-    'UserPoolId',
-    'userPoolId'
+    "MarketplaceStack01",
+    "UserPoolId",
+    "userPoolId"
   );
   await copyStackOutputToSettings(
-    'SimpleNftMarketplaceStack',
-    'UserPoolClientId',
-    'userPoolClientId'
+    "MarketplaceStack01",
+    "UserPoolClientId",
+    "userPoolClientId"
   );
   await copyStackOutputToSettings(
-    'SimpleNftMarketplaceStack',
-    'NftApiEndpoint',
-    'nftApiEndpoint'
+    "MarketplaceStack01",
+    "NftApiEndpoint",
+    "nftApiEndpoint"
   );
-  logProgress('Deploy API', true);
+  logProgress("Deploy API", true);
 };
 
 const promptForEther = async () => {
-  const address = await getFromSettings('address');
+  const address = await getFromSettings("address");
   console.log(
     chalk.green
       .bold(`Navigate to https://faucet.egorfine.com/ to add ETH to your address:
@@ -236,10 +236,10 @@ Then press any key to continue...`)
 };
 
 const waitForEther = async () => {
-  const address = await getFromSettings('address');
-  const endpoint = await getFromSettings('ambEndpoint');
-  const region = await getFromSettings('region');
-  await commandWithPipe('node scripts/wait-for-balance.js', {
+  const address = await getFromSettings("address");
+  const endpoint = await getFromSettings("ambEndpoint");
+  const region = await getFromSettings("region");
+  await commandWithPipe("node scripts/wait-for-balance.js", {
     cwd: PATHS.contract,
     env: {
       AMB_HTTP_ENDPOINT: endpoint,
@@ -252,12 +252,12 @@ const waitForEther = async () => {
 };
 
 const deployContract = async () => {
-  logProgress('Deploy Contract');
-  const privateKey = await getFromSettings('privateKey');
-  const endpoint = await getFromSettings('ambEndpoint');
-  const region = await getFromSettings('region');
+  logProgress("Deploy Contract");
+  const privateKey = await getFromSettings("privateKey");
+  const endpoint = await getFromSettings("ambEndpoint");
+  const region = await getFromSettings("region");
   const contract = commandWithPipe(
-    'npx hardhat run --network amb scripts/deploy-amb.js',
+    "npx hardhat run --network amb scripts/deploy-amb.js",
     {
       cwd: PATHS.contract,
       env: {
@@ -271,17 +271,17 @@ const deployContract = async () => {
   );
   const { stdout } = await contract;
   const [contractAddress] = stdout.match(/(0x[a-fA-F0-9]{40})/);
-  if (!contractAddress) throw new Error('Unable to parse contract address');
-  await writeToSettings('contractAddress', contractAddress);
-  logProgress('Deploy Contract', true);
+  if (!contractAddress) throw new Error("Unable to parse contract address");
+  await writeToSettings("contractAddress", contractAddress);
+  logProgress("Deploy Contract", true);
 };
 
 const writeFrontEndVars = async () => {
-  logProgress('Write UI Configuration');
-  const region = await getFromSettings('region');
-  const apiEndpoint = await getFromSettings('nftApiEndpoint');
-  const userPoolId = await getFromSettings('userPoolId');
-  const webClientId = await getFromSettings('userPoolClientId');
+  logProgress("Write UI Configuration");
+  const region = await getFromSettings("region");
+  const apiEndpoint = await getFromSettings("nftApiEndpoint");
+  const userPoolId = await getFromSettings("userPoolId");
+  const webClientId = await getFromSettings("userPoolClientId");
   const envLocal = `
 VUE_APP_AWS_REGION=${region}
 VUE_APP_API_ENDPOINT=${apiEndpoint}
@@ -290,38 +290,38 @@ VUE_APP_USER_POOL_WEB_CLIENT_ID=${webClientId}
 `;
 
   await fs.writeFile(PATHS.marketplaceEnv, envLocal);
-  logProgress('Write UI Configuration', true);
+  logProgress("Write UI Configuration", true);
 };
 
 const buildFrontEnd = async () => {
-  logProgress('Build UI');
-  await commandWithPipe('npm run build', {
+  logProgress("Build UI");
+  await commandWithPipe("npm run build", {
     cwd: PATHS.marketplace,
   });
-  logProgress('Build UI', true);
+  logProgress("Build UI", true);
 };
 
 const deployFrontEnd = async () => {
-  logProgress('Deploy UI');
+  logProgress("Deploy UI");
   const deploy = commandWithPipe(
-    `cdk deploy SimpleNftMarketplaceFrontendStack \
+    `cdk deploy MarketplaceFrontendStack01 \
     --require-approval never`,
     {
       cwd: PATHS.provision,
       env: {
         // Placeholder values to prevent synth from failing
-        AMB_HTTP_ENDPOINT: 'placeholder',
-        CONTRACT_ADDRESS: 'placeholder',
+        AMB_HTTP_ENDPOINT: "placeholder",
+        CONTRACT_ADDRESS: "placeholder",
       },
     }
   );
   const { stderr } = await deploy;
   const [cfnEndpoint] = stderr.match(/(https:\/\/[a-zA-Z0-9]+.cloudfront.net)/);
-  await writeToSettings('cfnEndpoint', cfnEndpoint);
-  logProgress('Deploy UI', true);
+  await writeToSettings("cfnEndpoint", cfnEndpoint);
+  logProgress("Deploy UI", true);
 };
 
-const runOnce = async fn => {
+const runOnce = async (fn) => {
   if (await getFromSettings(fn.name)) {
     console.log(`Skipping ${fn.name} since it has already been completed`);
   } else {
@@ -366,7 +366,7 @@ Success!
 Your Simple NFT Marketplace has now been deployed and the UI can be accessed at
 the following URL:
 
-${await getFromSettings('cfnEndpoint')}
+${await getFromSettings("cfnEndpoint")}
 
 To mint and send your first NFT, you can start by creating an account on the UI
 as listed in the docs starting from here:
@@ -376,7 +376,7 @@ https://github.com/aws-samples/simple-nft-marketplace/blob/main/docs/en/DOCS_04_
     );
     process.exit();
   })
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     throw e;
   });

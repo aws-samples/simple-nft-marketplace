@@ -12,7 +12,7 @@
 npm install
 ```
 
-### AWSプロファイルを設定します
+### AWS プロファイルを設定します
 
 シェルで現在アクティブな AWS プロファイルは、インフラストラクチャをデプロイするために使用されます。プロファイルが指定されていない場合 `default` プロファイルが使用されます。
 
@@ -33,7 +33,7 @@ export AWS_PROFILE='my-profile'
 
 ### クリーンアップ
 
-> :warning: この例で使用されているピアノードは、1時間あたり0.174ドルもの費用がかかる可能性があります。お住まいの地域によって異なります。 検証が終了次第、リソースを削除することをお勧めします。
+> :warning: この例で使用されているピアノードは、1 時間あたり 0.174 ドルもの費用がかかる可能性があります。お住まいの地域によって異なります。 検証が終了次第、リソースを削除することをお勧めします。
 
 作成されたすべてのリソースを削除するには、次のコマンドをリポジトリのルートで実行します。
 
@@ -44,7 +44,8 @@ npm run cleanup
 これにより、デプロイしたインフラストラクチャとデプロイスクリプトによって作成された `deploy-settings.json`ファイルを削除します。
 
 ## Step by Step によるデプロイガイド
-- [Ethereum Testnet Ropsten のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md)
+
+- [Ethereum Testnet Goerli のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md)
 - [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md)
 - [API のデプロイ](/docs/ja/DOCS_03_DEPLOY_API.md)
 - [フロントエンドの動作確認](/docs/ja/DOCS_04_FRONTEND.md)

@@ -1,6 +1,6 @@
-import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import * as managedblockchain from 'aws-cdk-lib/aws-managedblockchain';
+import { Stack, StackProps, CfnOutput } from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as managedblockchain from "aws-cdk-lib/aws-managedblockchain";
 
 export class AmbStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -9,24 +9,24 @@ export class AmbStack extends Stack {
     const [firstAz] = Stack.of(this).availabilityZones;
     const region = Stack.of(this).region;
 
-    const ambNode = new managedblockchain.CfnNode(this, 'Node', {
-      networkId: 'n-ethereum-ropsten',
+    const ambNode = new managedblockchain.CfnNode(this, "Node", {
+      networkId: "n-ethereum-goerli",
       nodeConfiguration: {
         availabilityZone: firstAz,
-        instanceType: 'bc.t3.large',
+        instanceType: "bc.t3.large",
       },
     });
 
     const ambHttpEndpoint = `https://${ambNode.attrNodeId}.ethereum.managedblockchain.${region}.amazonaws.com`;
 
-    new CfnOutput(this, 'AmbHttpEndpoint', {
+    new CfnOutput(this, "AmbHttpEndpoint", {
       value: ambHttpEndpoint,
-      exportName: 'AmbHttpEndpoint',
+      exportName: "AmbHttpEndpoint",
     });
 
-    new CfnOutput(this, 'DeployRegion', {
+    new CfnOutput(this, "DeployRegion", {
       value: region,
-      exportName: 'DeployRegion',
-    })
+      exportName: "DeployRegion",
+    });
   }
 }

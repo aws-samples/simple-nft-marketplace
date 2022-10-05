@@ -53,7 +53,7 @@ This will use CDK to remove the infrastructure we deployed, as well as remove th
 
 ## Step by Step Instructions
 
-1. [Creating a node for Ethereum Testnet: Ropsten](./DOCS_01_CREATE_AMB.md)
+1. [Creating a node for Ethereum Testnet: Goerli](./DOCS_01_CREATE_AMB.md)
 2. [Deploy Contract](./DOCS_02_DEPLOY_CONTRACT.md)
 3. [Deploy API](./DOCS_03_DEPLOY_API.md)
 4. [Testing the Front End (local)](./DOCS_04_FRONTEND.md)

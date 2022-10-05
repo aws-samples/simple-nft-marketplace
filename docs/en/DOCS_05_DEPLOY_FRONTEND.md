@@ -24,10 +24,10 @@ accessible from CloudFront.
 Switch to the `/provision` directory and run the following command.
 
 ```bash
-cdk deploy SimpleNftMarketplaceFrontendStack
+cdk deploy MarketplaceFrontendStack01
 ```
 
 Deployment is now complete. If you access the CloudFront endpoint from the CDK
 outputs in the terminal and the page loads without errors, it was successful.
 
-[1]:./DOCS_03_DEPLOY_API.md
+[1]: ./DOCS_03_DEPLOY_API.md
