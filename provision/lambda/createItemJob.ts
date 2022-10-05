@@ -1,4 +1,4 @@
-import { getContext, finalizeJob } from './lib/context';
+import { getContext, finalizeJob } from "./lib/context";
 
 interface JobParams {
   jobId: string;
@@ -15,13 +15,13 @@ interface EventLog {
 
 const getTokenIdByEventsLog = (events: EventLog[]): number | null => {
   for (const event of events) {
-    if (event.name && event.name === 'tokenId') {
+    if (event.name && event.name === "tokenId") {
       return Number(event.value);
     }
   }
 
   return null;
-}
+};
 
 exports.handler = async (paramsJob: JobParams): Promise<void> => {
   try {
@@ -32,7 +32,10 @@ exports.handler = async (paramsJob: JobParams): Promise<void> => {
     const web3 = context.web3;
     const SimpleERC721 = context.SimpleERC721;
 
-    const tx = contract.methods.newItem(paramsJob.assetMetadataUrl, paramsJob.royalty);
+    const tx = contract.methods.newItem(
+      paramsJob.assetMetadataUrl,
+      paramsJob.royalty
+    );
     const gas = await tx.estimateGas({ from: account.address });
     const signedTx = await account.signTransaction({
       to: contractAddress,
@@ -40,17 +43,22 @@ exports.handler = async (paramsJob: JobParams): Promise<void> => {
       gas,
     });
 
-    const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    const receipt = await web3.eth.sendSignedTransaction(
+      signedTx.rawTransaction
+    );
     const txHash = receipt.transactionHash;
-    const abiDecoder = require('abi-decoder');
+    const abiDecoder = require("abi-decoder");
     abiDecoder.addABI(SimpleERC721.abi);
-    const tokenId = getTokenIdByEventsLog(abiDecoder.decodeLogs(receipt.logs)[0].events);
+    const tokenId = getTokenIdByEventsLog(
+      abiDecoder.decodeLogs(receipt.logs)[0].events
+    );
     const tokenUri = await contract.methods.tokenURI(tokenId).call();
     const result = JSON.stringify({ txHash, tokenId, tokenUri });
 
-    await finalizeJob(paramsJob.jobId, 'SUCCESS', result);
+    await finalizeJob(paramsJob.jobId, "SUCCESS", result);
   } catch (e) {
     console.error(e);
-    await finalizeJob(paramsJob.jobId, 'ERROR', JSON.stringify(e));
+    console.log("log: " + e);
+    await finalizeJob(paramsJob.jobId, "ERROR", JSON.stringify(e));
   }
 };

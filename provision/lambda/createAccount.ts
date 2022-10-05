@@ -37,7 +37,7 @@ exports.handler = async (
     await connection.execute(
       "INSERT INTO " +
         tableName +
-        " (`id`, `key`) VALUES ('" +
+        " (`id`, `private_key`) VALUES ('" +
         username +
         "', '" +
         account.privateKey +

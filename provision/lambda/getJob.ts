@@ -36,6 +36,7 @@ exports.handler = async (
         "'"
     );
 
+    console.log("row0: " + JSON.stringify(rows[0]));
     return {
       statusCode: 200,
       headers: {
@@ -43,9 +44,11 @@ exports.handler = async (
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        jobId: rows[0][0],
-        status: rows[0][1],
-        result: rows[0][2] ? rows[0][2] : null,
+        jobId: JSON.parse(JSON.stringify(rows[0]))[0].id,
+        status: JSON.parse(JSON.stringify(rows[0]))[0].status,
+        result: JSON.parse(JSON.stringify(rows[0]))[0].result
+          ? JSON.parse(JSON.stringify(rows[0]))[0].result
+          : null,
       }),
     };
   } else {

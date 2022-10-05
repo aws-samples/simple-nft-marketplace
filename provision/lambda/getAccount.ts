@@ -30,11 +30,15 @@ exports.handler = async (
 
     connection.connect();
 
-    const rows = await connection.query(
-      "SELECT id, key from " + tableName + " where id='" + username + "'"
-    );
-    console.log(rows);
-    privateKey = rows[0][1];
+    const sql =
+      "SELECT id, `private_key` from " +
+      tableName +
+      " where id='" +
+      username +
+      "'";
+    const rows = await connection.query(sql);
+    // console.log("row0: " + JSON.stringify(rows[0]));
+    privateKey = JSON.parse(JSON.stringify(rows[0]))[0].private_key;
   } else {
     const res = await ddb.getItem(params).promise();
     privateKey = res.Item.key.S;

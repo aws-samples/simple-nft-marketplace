@@ -46,13 +46,13 @@ export const getContext = async (username: string): Promise<Context> => {
     connection.connect();
 
     const rows = await connection.query(
-      "SELECT id, key from " +
+      "SELECT id, `private_key` from " +
         tableNamePrivateKey +
         " where id='" +
         username +
         "'"
     );
-    privateKey = rows[0][1];
+    privateKey = JSON.parse(JSON.stringify(rows[0]))[0].private_key;
   } else {
     const res = await ddb.getItem(paramsPrivateKey).promise();
     privateKey = res.Item.key.S;
@@ -104,7 +104,7 @@ export const finalizeJob = async (
         result +
         "' where id='" +
         jobId +
-        "')"
+        "'"
     );
   } else {
     await ddb.putItem(paramsJobStatus).promise();

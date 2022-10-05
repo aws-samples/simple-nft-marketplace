@@ -4,9 +4,7 @@
       <h1 class="title">Show NFT</h1>
 
       <template v-if="loading">
-        <div class="mt-4">
-          Loading ...
-        </div>
+        <div class="mt-4">Loading ...</div>
       </template>
 
       <template v-else-if="asset">
@@ -62,33 +60,42 @@
           </div>
 
           <div class="column">
-            <div class="is-flex is-flex-direction-row is-justify-content-center">
-              <img :src="asset.url" width="500">
+            <div
+              class="is-flex is-flex-direction-row is-justify-content-center"
+            >
+              <img :src="asset.url" width="500" />
             </div>
           </div>
         </div>
       </template>
       <template v-else>
-        <div class="mt-4">
-          No asset found
-        </div>
+        <div class="mt-4">No asset found</div>
       </template>
     </section>
 
-    <div class="mt-5 mb-5 has-text-centered has-text-weight-bold" v-if="message !== '' && message !== 'ERROR: {}'">
+    <div
+      class="mt-5 mb-5 has-text-centered has-text-weight-bold"
+      v-if="message !== '' && message !== 'ERROR: {}'"
+    >
       <span>Do NOT close browser now. {{ message }}</span>
     </div>
 
-    <section class="section" v-if="item && item.owned && !item.marketplace.listing">
+    <section
+      class="section"
+      v-if="item && item.owned && !item.marketplace.listing"
+    >
       <h1 class="title">Marketplace</h1>
-      <h3 class="subtitle is-6">
-        You can set a price and sell your token.
-      </h3>
+      <h3 class="subtitle is-6">You can set a price and sell your token.</h3>
 
       <div class="field">
         <label class="label">Price (ETH)</label>
         <div class="control">
-          <input class="input" type="number" placeholder="0.001" v-model="price">
+          <input
+            class="input"
+            type="number"
+            placeholder="0.001"
+            v-model="price"
+          />
         </div>
       </div>
 
@@ -97,18 +104,22 @@
       </button>
     </section>
 
-    <section class="section" v-if="item && item.owned && item.marketplace.listing">
+    <section
+      class="section"
+      v-if="item && item.owned && item.marketplace.listing"
+    >
       <h1 class="title">Marketplace</h1>
-      <h3 class="subtitle is-6">
-        You can remove your token from marketplace.
-      </h3>
+      <h3 class="subtitle is-6">You can remove your token from marketplace.</h3>
 
       <button :class="transactionButtonClass" @click="removeFromMarketplace">
         Remove
       </button>
     </section>
 
-    <section class="section" v-if="item && !item.owned && item.marketplace.listing">
+    <section
+      class="section"
+      v-if="item && !item.owned && item.marketplace.listing"
+    >
       <h1 class="title">Purchase</h1>
       <h3 class="subtitle is-6">
         Price: {{ priceEth(item.marketplace.price) }} ETH
@@ -128,11 +139,20 @@
       <div class="field">
         <label class="label">Address</label>
         <div class="control">
-          <input class="input" type="text" placeholder="0x..." v-model="toAddress">
+          <input
+            class="input"
+            type="text"
+            placeholder="0x..."
+            v-model="toAddress"
+          />
         </div>
       </div>
 
-      <button :class="transactionButtonClass" @click="transfer" :disabled="transferButtonDisabled">
+      <button
+        :class="transactionButtonClass"
+        @click="transfer"
+        :disabled="transferButtonDisabled"
+      >
         Transfer
       </button>
     </section>
@@ -140,10 +160,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { API } from 'aws-amplify';
-import axios from 'axios';
-import { pollJob } from '../lib/pollJob';
+import { Component, Vue } from "vue-property-decorator";
+import { API } from "aws-amplify";
+import axios from "axios";
+import { pollJob } from "../lib/pollJob";
 
 interface Marketplace {
   price: number;
@@ -170,9 +190,9 @@ interface Asset {
 export default class Show extends Vue {
   item: Item | null = null;
   asset: Asset | null = null;
-  toAddress = '';
-  txHash = '';
-  message = '';
+  toAddress = "";
+  txHash = "";
+  message = "";
   pollingCounter = 0;
   price = 0.001;
 
@@ -184,7 +204,7 @@ export default class Show extends Vue {
   }
 
   async getItem(): Promise<Item> {
-    const res = await API.get('api', `/item/${this.tokenId}`, {});
+    const res = await API.get("api", `item/${this.tokenId}`, {});
     return res;
   }
 
@@ -194,25 +214,27 @@ export default class Show extends Vue {
   }
 
   async transfer(): Promise<void> {
-    if (this.toAddress === '') {
+    if (this.toAddress === "") {
       return;
     }
 
-    await this.createNewTransaction(`/item/${this.tokenId}`, {
+    await this.createNewTransaction(`item/${this.tokenId}`, {
       toAddress: this.toAddress,
     });
   }
 
   async listOnMarketplace(): Promise<void> {
-    await this.createNewTransaction(`/item/${this.tokenId}/list`, { price: this.price });
+    await this.createNewTransaction(`item/${this.tokenId}/list`, {
+      price: this.price,
+    });
   }
 
   async removeFromMarketplace(): Promise<void> {
-    await this.createNewTransaction(`/item/${this.tokenId}/unlist`, {});
+    await this.createNewTransaction(`item/${this.tokenId}/unlist`, {});
   }
 
   async purchase(): Promise<void> {
-    await this.createNewTransaction(`/item/${this.tokenId}/purchase`, {});
+    await this.createNewTransaction(`item/${this.tokenId}/purchase`, {});
   }
 
   async mounted(): Promise<void> {
@@ -231,14 +253,14 @@ export default class Show extends Vue {
 
   get transactionButtonClass(): string {
     if (this.executing) {
-      return 'button is-primary is-loading';
+      return "button is-primary is-loading";
     } else {
-      return 'button is-primary';
+      return "button is-primary";
     }
   }
 
   get transferButtonDisabled(): boolean {
-    if (this.toAddress === '') {
+    if (this.toAddress === "") {
       return true;
     } else {
       return false;
@@ -247,18 +269,21 @@ export default class Show extends Vue {
 
   priceEth(priceWei: number): number {
     // eslint-disable-next-line
-    const Web3 = require('web3');
+    const Web3 = require("web3");
 
-    return Web3.utils.fromWei(priceWei, 'ether');
+    return Web3.utils.fromWei(priceWei, "ether");
   }
 
-  async createNewTransaction(path: string, body: { [key: string]: string|number }): Promise<void> {
+  async createNewTransaction(
+    path: string,
+    body: { [key: string]: string | number }
+  ): Promise<void> {
     this.executing = true;
 
     try {
       this.message = `Create new transaction...`;
 
-      const resJob = await API.post('api', path, { body });
+      const resJob = await API.post("api", path, { body });
 
       this.pollingCounter = 0;
 
@@ -269,7 +294,7 @@ export default class Show extends Vue {
         this.message = `Polling job... (Count: ${this.pollingCounter}, Current status: ${res.status})`;
       });
 
-      this.message = 'Success! (Reloading the page in few seconds...)';
+      this.message = "Success! (Reloading the page in few seconds...)";
       this.executing = false;
 
       setTimeout(() => {
