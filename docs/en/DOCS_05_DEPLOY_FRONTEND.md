@@ -24,7 +24,7 @@ accessible from CloudFront.
 Switch to the `/provision` directory and run the following command.
 
 ```bash
-cdk deploy MarketplaceFrontendStackTest01
+cdk deploy MarketplaceFrontendStack01
 ```
 
 Deployment is now complete. If you access the CloudFront endpoint from the CDK

@@ -72,16 +72,16 @@ cdk bootstrap
 Finally to deploy, execute the following command.
 
 ```bash
-cdk deploy MarketplaceStackTest01
+cdk deploy MarketplaceStack01
 ```
 
 After deployment is complete, you should see output values that look something like this.
 
 ```bash
 > Outputs:
-> MarketplaceStackTest01.NftApiEndpoint8C6C6AD5 = https://********.execute-api.us-east-1.amazonaws.com/prod/
-> MarketplaceStackTest01.UserPoolClientId = 6en**************
-> MarketplaceStackTest01.UserPoolId = us-east-1_****
+> MarketplaceStack01.NftApiEndpoint8C6C6AD5 = https://********.execute-api.us-east-1.amazonaws.com/prod/
+> MarketplaceStack01.UserPoolClientId = 6en**************
+> MarketplaceStack01.UserPoolId = us-east-1_****
 ```
 
 Save the output values for the API Gateway Endpoint, Cognito UserPool ID, and Client ID

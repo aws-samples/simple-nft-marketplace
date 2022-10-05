@@ -74,7 +74,7 @@ export CONTRACT_ADDRESS=0x...
 最後に、デプロイを実施します。以下のコマンドを実行してください。
 
 ```bash
-cdk deploy MarketplaceStackTest01
+cdk deploy MarketplaceStack01
 ```
 
 以上でデプロイは完了です。デプロイ完了時に表示される API Gateway のエンドポイント、Congito の UserPool ID と Client ID の 3 つは後続の手順で必要になるので、転記しておいてください。

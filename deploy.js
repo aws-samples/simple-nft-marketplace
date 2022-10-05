@@ -164,7 +164,7 @@ const deployAmbNode = async () => {
     },
   });
   await commandWithPipe(
-    `cdk deploy MarketplaceBlockchainNodeTest01 \
+    `cdk deploy MarketplaceBlockchainNode01 \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs} \
 `,
@@ -178,12 +178,12 @@ const deployAmbNode = async () => {
     }
   );
   await copyStackOutputToSettings(
-    "MarketplaceBlockchainNodeTest01",
+    "MarketplaceBlockchainNode01",
     "AmbHttpEndpoint",
     "ambEndpoint"
   );
   await copyStackOutputToSettings(
-    "MarketplaceBlockchainNodeTest01",
+    "MarketplaceBlockchainNode01",
     "DeployRegion",
     "region"
   );
@@ -195,7 +195,7 @@ const deployApi = async () => {
   const contractAddress = await getFromSettings("contractAddress");
   const endpoint = await getFromSettings("ambEndpoint");
   await commandWithPipe(
-    `cdk deploy MarketplaceStackTest01 \
+    `cdk deploy MarketplaceStack01 \
   --require-approval never \
   --outputs-file ${PATHS.stackOutputs}`,
     {
@@ -207,17 +207,17 @@ const deployApi = async () => {
     }
   );
   await copyStackOutputToSettings(
-    "MarketplaceStackTest01",
+    "MarketplaceStack01",
     "UserPoolId",
     "userPoolId"
   );
   await copyStackOutputToSettings(
-    "MarketplaceStackTest01",
+    "MarketplaceStack01",
     "UserPoolClientId",
     "userPoolClientId"
   );
   await copyStackOutputToSettings(
-    "MarketplaceStackTest01",
+    "MarketplaceStack01",
     "NftApiEndpoint",
     "nftApiEndpoint"
   );
@@ -304,7 +304,7 @@ const buildFrontEnd = async () => {
 const deployFrontEnd = async () => {
   logProgress("Deploy UI");
   const deploy = commandWithPipe(
-    `cdk deploy MarketplaceFrontendStackTest01 \
+    `cdk deploy MarketplaceFrontendStack01 \
     --require-approval never`,
     {
       cwd: PATHS.provision,

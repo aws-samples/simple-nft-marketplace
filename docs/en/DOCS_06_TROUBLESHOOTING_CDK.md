@@ -63,7 +63,7 @@ not have sufficient privilege to deploy a stack with CloudFormation.
 
 ## Is the docker daemon running? error
 
-When running `cdk deploy MarketplaceStackTest01` you receive the following errors:
+When running `cdk deploy MarketplaceStack01` you receive the following errors:
 
 `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
 

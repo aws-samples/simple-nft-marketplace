@@ -16,11 +16,11 @@ if (!fs.existsSync(distPath)) {
 
 const app = new App();
 
-new AmbStack(app, "MarketplaceBlockchainNodeTest01");
+new AmbStack(app, "MarketplaceBlockchainNode01");
 
-new ProvisionStack(app, "MarketplaceStackTest01", {
+new ProvisionStack(app, "MarketplaceStack01", {
   ambHttpEndpoint: process.env.AMB_HTTP_ENDPOINT || "",
   contractAddress: process.env.CONTRACT_ADDRESS || "",
 });
 
-new FrontendStack(app, "MarketplaceFrontendStackTest01", {});
+new FrontendStack(app, "MarketplaceFrontendStack01", {});
