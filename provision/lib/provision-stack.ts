@@ -133,11 +133,11 @@ export CONTRACT_ADDRESS=0x...
       TABLE_JOB: "jobs",
       ASSET_DOMAIN: distribution.distributionDomainName,
       BUCKET_NAME: assetBucket.bucketName,
-      DB_HOST: "database-nft.csd1kiyqwntt.ap-northeast-1.rds.amazonaws.com",
+      DB_HOST: "database_host",
       DB_PORT: "3306",
-      DB_NAME: "database_nft",
-      DB_USER: "admin",
-      DB_PASS: "NTJLv9Nvch3f8UatMHAw",
+      DB_NAME: "database_name",
+      DB_USER: "db_user",
+      DB_PASS: "db_password",
       USE_MYSQL: "1",
     };
 
