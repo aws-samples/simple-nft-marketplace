@@ -1,6 +1,6 @@
 # Simple NFT Marketplace
 
-> 日本語の解説ブログは[こちら](https://aws-samples.github.io/jp-prototyping-blog/simple-nft-marketplace/)
+> 日本語の解説ブログは[こちら](https://aws-samples.github.io/jp-prototyping-blog/blog/simple-nft-marketplace/)
 
 This project provides sample code to build a simple NFT
 ([Non-Fungible Token](https://aws.amazon.com/blockchain/nfts-explained/))
