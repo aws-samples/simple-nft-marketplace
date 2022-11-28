@@ -1,22 +1,22 @@
-# Creating a node for Ethereum Testnet: Ropsten
+# Creating a node for Ethereum Testnet: Goerli
 
-**Before you begin** 
+**Before you begin**
 
-Clone this repository to your workspace or local machine.  You will use 
-the code located in the specified directories at each step.   
+Clone this repository to your workspace or local machine.  You will use
+the code located in the specified directories at each step.
 
 ## Creating your Amazon Blockchain Node
 > Note: The creation of the node can take up to 30 minutes.
-> 
-To connect to the Ethereum network, we must create a node and connect it to the appropriate network. 
-We will use *Ropsten*, also known as the *Ethereum Testnet*, which is a test network allowing for
-blockchain development testing before deployment on Mainnet.  
+>
+To connect to the Ethereum network, we must create a node and connect it to the appropriate network.
+We will use *Goerli*, also known as the *Ethereum Testnet*, which is a test network allowing for
+blockchain development testing before deployment on Mainnet.
 
 This node will provide our endpoint to communicate with the Ethereum network.
 
 To get started, create an Ethereum node in the AWS Console for [Amazon Managed Blockchain][1].
 
-For *Blockchain Network*, select **Ethereum Testnet: Ropsten** and use the remaining
+For *Blockchain Network*, select **Ethereum Testnet: Goerli** and use the remaining
 configuration default values that have already been populated then select **Create Node**
 as outlined in the image below.
 

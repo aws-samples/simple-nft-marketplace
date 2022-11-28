@@ -44,7 +44,7 @@ npm run cleanup
 これにより、デプロイしたインフラストラクチャとデプロイスクリプトによって作成された `deploy-settings.json`ファイルを削除します。
 
 ## Step by Step によるデプロイガイド
-- [Ethereum Testnet Ropsten のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md)
+- [Ethereum Testnet Goerli のノード作成 (Amazon Managed Blockchain)](/docs/ja/DOCS_01_CREATE_AMB.md)
 - [Contract のデプロイ](/docs/ja/DOCS_02_DEPLOY_CONTRACT.md)
 - [API のデプロイ](/docs/ja/DOCS_03_DEPLOY_API.md)
 - [フロントエンドの動作確認](/docs/ja/DOCS_04_FRONTEND.md)

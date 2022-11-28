@@ -228,7 +228,7 @@ const promptForEther = async () => {
   const address = await getFromSettings('address');
   console.log(
     chalk.green
-      .bold(`Navigate to https://faucet.egorfine.com/ to add ETH to your address:
+      .bold(`Navigate to https://goerlifaucet.com/ to add ETH to your address:
 ${address}
 Then press any key to continue...`)
   );
