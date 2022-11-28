@@ -10,7 +10,7 @@ export class AmbStack extends Stack {
     const region = Stack.of(this).region;
 
     const ambNode = new managedblockchain.CfnNode(this, 'Node', {
-      networkId: 'n-ethereum-ropsten',
+      networkId: 'n-ethereum-goerli',
       nodeConfiguration: {
         availabilityZone: firstAz,
         instanceType: 'bc.t3.large',

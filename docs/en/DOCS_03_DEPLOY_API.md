@@ -53,7 +53,7 @@ npm run build
 The CDK project uses variables to populate the AMB Endpoint and Contract Address.
 Therefore, before we can deploy the project, will set the required environment variables.
 `AMB_HTTP_ENDPOINT` is the HTTP endpoint of the node we created in the previous
-step [Creating a node for Ethereum Testnet: Ropsten][1] and `CONTRACT_ADDRESS` is
+step [Creating a node for Ethereum Testnet: Goerli][1] and `CONTRACT_ADDRESS` is
 the address of the contract we deployed in [Deploy Contract][2].
 Replace the values in the following command with the values saved from
 previous steps and execute it.
