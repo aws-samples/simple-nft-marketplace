@@ -1,4 +1,5 @@
 {
+  "name": "@aws-samples/contract",
   "devDependencies": {
     "@aws/web3-http-provider": "^1.0.1",
     "@nomiclabs/hardhat-ethers": "^2.0.5",

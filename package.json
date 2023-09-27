@@ -1,5 +1,5 @@
 {
-  "name": "simple-nft-marketplace",
+  "name": "@aws-samples/simple-nft-marketplace",
   "version": "1.0.0",
   "description": "This project provides sample codes to build a simple NFT marketplace with Amazon Managed Blockchain. - AWS CDK to deploy backend API ([/provision](/provision)) - Contract written in Solidity ([/contract](/contract)) - Marketplace web UI ([/marketplace](/marketplace))",
   "scripts": {
