@@ -1,5 +1,5 @@
 {
-  "name": "marketplace",
+  "name": "@aws-samples/marketplace",
   "version": "0.1.0",
   "private": true,
   "scripts": {

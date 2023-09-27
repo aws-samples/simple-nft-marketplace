@@ -1,5 +1,5 @@
 {
-  "name": "provision",
+  "name": "@aws-samples/provision",
   "version": "0.1.0",
   "bin": {
     "provision": "bin/provision.js"
