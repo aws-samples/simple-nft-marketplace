@@ -12,7 +12,7 @@
     "@aws-amplify/ui-vue": "^2.3.3",
     "assert": "^2.0.0",
     "aws-amplify": "^4.3.18",
-    "axios": "^0.26.1",
+    "axios": "^1.6.0",
     "buffer": "^6.0.3",
     "bulma": "^0.9.3",
     "https-browserify": "^1.0.0",
